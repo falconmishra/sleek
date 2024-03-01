@@ -1,0 +1,23 @@
+
+
+.landing{ 
+    /* position: relative; */
+    content: "";
+    display: block; /* Ensure it's a block-level element */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(../images/landing_banner.jpg);
+    width: 100vw; /* Set width and height to cover the parent element */
+    height: 100%;
+}
+.btn1{
+    background: rgb(250,0,255);
+background: linear-gradient(115deg, rgba(250,0,255,1) 0%, rgba(0,163,255,1) 50%, rgba(143,0,255,1) 100%);
+}
+
+@media screen and (min-width:300px) and (max-width:690px) {
+    .rowcol{
+        flex-direction:column;
+    }
+}
