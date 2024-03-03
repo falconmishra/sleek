@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoute.js";
 import catergoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 connectDB();
 
@@ -14,6 +15,12 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
 
 dotenv.config();
 

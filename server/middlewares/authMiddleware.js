@@ -39,12 +39,16 @@ export const isAdmin = async (req, res, next) => {
 };
 
 export const validateCookie = (req, res, next) => {
-  const { cookie } = req.cookies;
-  try {
-    const decode = JWT.verify(cookie, process.env.JWT_SECRET);
-    req.user = decode;
-    next();
-  } catch (error) {
-    console.log("error", error);
+  const { cookie } = req.cookies.token;
+  if (cookie) {
+    try {
+      const decode = JWT.verify(cookie, process.env.JWT_SECRET);
+      req.user = decode;
+      next();
+    } catch (error) {
+      console.log("error", error);
+    }
+  } else {
+    res.send({ msg: "no cookies was sent" });
   }
 };

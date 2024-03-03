@@ -1,6 +1,7 @@
 import { Hashpassword, comparePassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 //register function
 export const routerController = async (req, res) => {
@@ -88,7 +89,8 @@ export const loginController = async (req, res) => {
     const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.cookie("token", token);
+    const expirationDate = new Date(Date.now() + 2589200000);
+    res.cookie("token", token, { expires: expirationDate, httpOnly: true });
     res.status(200).send({
       success: true,
       message: "login successfully",
@@ -97,6 +99,7 @@ export const loginController = async (req, res) => {
       },
       token,
     });
+    // cookieParser.JSONCookie(token);
   } catch (error) {
     console.log(error);
     res.status(500).send({

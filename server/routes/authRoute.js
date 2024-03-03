@@ -23,7 +23,7 @@ router.post("/login", loginController);
 router.get("/test", validateCookie, testController);
 
 //protected admin route
-router.get("/test", requireSignIn, isAdmin, testController);
+router.get("/admin-test", requireSignIn, isAdmin, testController);
 
 //forgotPassword
 router.post("/forgot-password", forgotPasswordController);
