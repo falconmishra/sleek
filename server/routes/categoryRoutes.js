@@ -1,5 +1,9 @@
 import express from "express";
-import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
+import {
+  isAdmin,
+  requireSignIn,
+  validateCookie,
+} from "../middlewares/authMiddleware.js";
 import {
   createCategoryController,
   deleteCategory,
@@ -13,7 +17,8 @@ const router = express.Router();
 //routes
 router.post(
   "/create-category",
-  requireSignIn,
+
+  validateCookie,
   isAdmin,
   createCategoryController
 );

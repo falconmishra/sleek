@@ -90,7 +90,10 @@ export const loginController = async (req, res) => {
       expiresIn: "7d",
     });
     const expirationDate = new Date(Date.now() + 2589200000);
-    res.cookie("token", token, { expires: expirationDate, httpOnly: true });
+    res.cookie("token", token, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
     res.status(200).send({
       success: true,
       message: "login successfully",

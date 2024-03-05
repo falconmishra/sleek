@@ -7,11 +7,17 @@ import catergoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 connectDB();
 
 const app = express();
 //configure morgan middleware
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());

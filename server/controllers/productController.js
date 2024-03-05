@@ -1,35 +1,39 @@
 import productModel from "../models/productModel.js";
 import slugify from "slugify";
 import fs from "fs";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: "duogkpk5c",
+  api_key: "256893742567797",
+  api_secret: "3cy3nunfV8IG4KHI4IaXbpnYxdc",
+});
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, slug, description, price, category, quantity, shipping } =
-      req.fields;
+    const { name, slug, description, price, category, quantity } = req.fields;
     const { photo } = req.files;
+    console.log("Fields:", req.fields);
+    console.log("Files:", req.files);
+    // Validations
+    if (!name || !description || !price || !category || !quantity) {
+      return res.status(500).send({ error: "All fields are required" });
+    }
 
-    //validations
-    switch (true) {
-      case !name:
-        return res.status(500).send({ error: "Name is required" });
-      case !description:
-        return res.status(500).send({ error: "Description is required" });
-      case !price:
-        return res.status(500).send({ error: "Price is required" });
-      case !category:
-        return res.status(500).send({ error: "Category is required" });
-      case !quantity:
-        return res.status(500).send({ error: "Quantity is required" });
-      case !photo && photo.size > 100000:
-        return res
-          .status(500)
-          .send({ error: "Name is required and should be less than 1 mb" });
+    if (!photo || (photo.size && photo.size > 1000000)) {
+      return res
+        .status(500)
+        .send({ error: "Photo is required and should be less than 1 MB" });
     }
-    const products = new productModel({ ...req.fields, slug: slugify(name) });
-    if (photo) {
-      products.photo.data = fs.readFileSync(photo.path);
-      products.photo.contentType = photo.type;
-    }
+
+    const cloudinaryUpload = await cloudinary.uploader.upload(photo.path);
+
+    const products = new productModel({
+      ...req.fields,
+      slug: slugify(name),
+      photo: cloudinaryUpload.url,
+    });
+    x;
     await products.save();
     res.status(201).send({
       success: true,
