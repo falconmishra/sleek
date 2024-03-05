@@ -1,25 +1,81 @@
 import React from 'react'
 import '../css/css2.css'
+import '../css/home.css'
 import { Row } from './Row'
+import landing from '../images/landing.jpg'
+import landing2 from '../images/landing2.jpg'
+import landing3 from '../images/landing3.jpg'
+import c1 from '../images/c1.jpg'
+import c2 from '../images/c2.jpg'
+import c3 from '../images/c3.jpg'
+import c4 from '../images/c4.jpg'
+import c5 from '../images/c5.jpg'
+import c6 from '../images/c6.jpg'
 
 export const Home = () => {
   
-  return (<div className='flex flex-col'>
-  
-    <div className='landing w-screen h-screen flex flex-col justify-center items-center'>
+  return (
+  <div className='homeall'>
+    <div className="sec1">
+      <img src={landing} alt="" />
+      <div className="sec1left">
+        <h1></h1>
+      </div>
+    </div>
 
-      <div className={`bottom-5 p-8 rounded-xl cont backdrop-blur-sm `}>
-        <h3 className='font-bold text-[2rem] text-wh1'>Welcome to <span className='lobster gdc1 text-[3rem] cursor-pointer'>Sleek</span></h3>
-        <p className='font-medium text-wh1 text-[1rem]'> Your Ultimate Shopping Destination!</p>
-        <div className='w-full flex justify-center gap-4 m-2'>
-          <button className='w-32 text-wh1  btn1 p-3 hover:opacity-90  rounded-full '>Shop Now</button>
-          <button className='w-32  text-wh1 bg-b1 p-3 hover:opacity-90  rounded-full '>Explore</button>
-        </div>
+
+
+    <div className="heading">
+      <h1>Collections</h1>
+    </div>
+    <div className='productcollection'>
+      
+      <div className="collection">
+        <img src={c1} alt="" />
+      </div>
+      <div className="collection">
+        <img src={c2} alt="" />
+      </div>
+      <div className="collection">
+        <img src={c3} alt="" />
+      </div>
+      <div className="collection">
+        <img src={c4} alt="" />
+      </div>
+      <div className="collection">
+        <img src={c5} alt="" />
+      </div>
+      <div className="collection">
+        <img src={c6} alt="" />
       </div>
 
-      
-
     </div>
+
+
+
+
+
+
+    <div className="sec1">
+      <img src={landing2} alt="" />
+      <div className="sec1left">
+        <h1></h1>
+      </div>
+    </div>
+
+    <Row name={'Winter special'}></Row>
+
+    <div className='featuredp'>
+      
+    </div>
+
+    <div className="sec1">
+      <img src={landing3} alt="" />
+      <div className="sec1left">
+        <h1></h1>
+      </div>
+    </div>
+  
     <div>
     <Row name={'Winter special'}></Row>
     <Row name={'Summer special'}></Row>

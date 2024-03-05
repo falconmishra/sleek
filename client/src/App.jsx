@@ -15,7 +15,6 @@ import { SearchResult } from "./components/SearchResult";
 import { Cart } from "./components/Cart";
 import { ProductDetails } from "./components/ProductDetails";
 import { Billing } from "./components/Billing";
-import Protected from "./components/Protected";
 
 function App() {
   return (
@@ -35,7 +34,7 @@ function App() {
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/billing" element={<Billing />} />
-            <ProtectedRoute path="/protected" component={<Protected />} />
+            
           </Routes>
         </div>
         <Footer />
