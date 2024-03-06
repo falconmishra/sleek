@@ -20,6 +20,16 @@ const userSchema = new mongoose.Schema(
     },
     secretQuestion: {
       type: String,
+
+      trim: true,
+    },
+    resetToken: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    resetExpire: {
+      type: Date,
       required: true,
       trim: true,
     },
