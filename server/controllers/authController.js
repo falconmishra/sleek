@@ -1,12 +1,11 @@
 import { Hashpassword, comparePassword } from "../helpers/authHelper.js";
 import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken";
-import cookieParser from "cookie-parser";
-
+import CryptoJS from "crypto-js";
 //register function
 export const routerController = async (req, res) => {
   try {
-    const { username, email, password, secretQuestion } = req.body;
+    const { username, email, password } = req.body;
 
     //validations
     if (!username) {
@@ -19,9 +18,6 @@ export const routerController = async (req, res) => {
 
     if (!password) {
       res.send({ error: "password is required" });
-    }
-    if (!secretQuestion) {
-      res.send({ error: "Secret Question is required" });
     }
 
     //checking for existing user
@@ -38,7 +34,6 @@ export const routerController = async (req, res) => {
       username,
       email,
       password: hashPassword,
-      secretQuestion,
     }).save();
 
     res.status(201).send({
@@ -120,38 +115,46 @@ export const testController = (req, res) => {
 
 //forgot password
 export const forgotPasswordController = async (req, res) => {
+  const { email } = req.body;
   try {
-    const { email, secretQuestion, newPassword } = req.body;
-    if (!email) {
-      res.status(400).send({ message: "Email is required" });
-    }
-    if (!secretQuestion) {
-      res.status(400).send({ message: "Secret Question is required" });
-    }
-    if (!newPassword) {
-      res.status(400).send({ message: "New password is required" });
-    }
-    //checking question and email
-    const user = await userModel.findOne({ email, secretQuestion });
-    //validations
+    let user = await userModel.findOne({ email });
     if (!user) {
-      res.status(404).send({
-        success: false,
-        message: "Wrong email or answer to secret question",
+      return res.send({
+        msg: "Email doesn't exists",
       });
     }
-    const hash = await Hashpassword(newPassword);
-    await userModel.findOneAndUpdate(user._id, { password: hash });
-    res.status(200).send({
-      success: true,
-      message: "Password changes successful",
-    });
+    const resetToken = CryptoJS.AES.encrypt(email, "SleekKey").toString();
+    user.resetToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+    user.resetExpire = Date.now() + 10 * 60;
   } catch (error) {
     console.log(error);
-    res.status(500).send({
-      success: false,
-      message: "Something went wrong",
-      error,
+  }
+};
+
+export const resetPasswordController = async (req, res) => {
+  const token = req.params.token;
+  const newPassword = req.body.password;
+  try {
+    const user = await userModel.findOne({
+      resetToken: token,
+      resetExpire: { $gt: Date.now() },
     });
+    if (!user) {
+      return res.status(400).json({ msg: "Invalid or expired token" });
+    } else {
+      //hash the password and update it in database
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(newPassword, salt);
+      user.resetToken = null;
+      user.resetExpire = null;
+      await user.save();
+      res.json({ msg: "Password has been changed successfully!" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error on server");
   }
 };

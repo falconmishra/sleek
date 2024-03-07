@@ -34,7 +34,6 @@ function App() {
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/billing" element={<Billing />} />
-            
           </Routes>
         </div>
         <Footer />

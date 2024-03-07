@@ -9,7 +9,7 @@ import {
   productPhotoController,
   updateProductController,
 } from "../controllers/productController.js";
-import ExpressFormidable from "express-formidable";
+import fileUploadMiddleware from "../middlewares/productMiddlewares.js";
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.post(
   "/createProduct",
   requireSignIn,
   isAdmin,
-  ExpressFormidable(),
+  fileUploadMiddleware,
   createProductController
 );
 //update product
@@ -26,7 +26,6 @@ router.put(
   "/updateProduct/:pid",
   requireSignIn,
   isAdmin,
-  ExpressFormidable(),
   updateProductController
 );
 

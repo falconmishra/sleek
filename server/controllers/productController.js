@@ -11,29 +11,27 @@ cloudinary.config({
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, slug, description, price, category, quantity } = req.fields;
+    const { name, description, price, category, quantity } = req.fields;
     const { photo } = req.files;
-    console.log("Fields:", req.fields);
-    console.log("Files:", req.files);
+
     // Validations
     if (!name || !description || !price || !category || !quantity) {
-      return res.status(500).send({ error: "All fields are required" });
+      return res.status(500).send({ message: "All fields are required" });
     }
 
     if (!photo || (photo.size && photo.size > 1000000)) {
       return res
         .status(500)
-        .send({ error: "Photo is required and should be less than 1 MB" });
+        .send({ message: "Photo is required and should be less than 1 MB" });
     }
-
-    const cloudinaryUpload = await cloudinary.uploader.upload(photo.path);
-
+    const cloudinaryUpload = await cloudinary.uploader.upload(
+      "../client/src/images/c1.jpg"
+    );
     const products = new productModel({
       ...req.fields,
       slug: slugify(name),
       photo: cloudinaryUpload.url,
     });
-    x;
     await products.save();
     res.status(201).send({
       success: true,
