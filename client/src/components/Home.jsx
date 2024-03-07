@@ -19,7 +19,7 @@ export const Home = () => {
     <div className="sec1">
       <img src={landing} alt="" />
       <div className="sec1left">
-        <h1></h1>
+        <h1>Try it, wear it, love it.</h1>
       </div>
     </div>
 
@@ -66,7 +66,7 @@ export const Home = () => {
     <Row name={'Winter special'}></Row>
 
     <div className='featuredp'>
-      
+    
     </div>
 
     <div className="sec1">

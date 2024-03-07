@@ -23,6 +23,7 @@
     border-top-left-radius:20px ;
     border-bottom-left-radius:30px ;
     display: flex;
+    flex-direction: column;
     border-bottom: 2px solid rgba(154,88,240,255);
     border-left: 2px solid rgba(154,88,240,255);
     width: 70%;
@@ -34,10 +35,12 @@
     flex-direction: column;
     justify-content: right;
     width: 100%;
+    
 }
 .yourcart h2{
     background: linear-gradient(45deg,rgba(118,80,214,255),rgba(165,90,246,255)) ;
-    
+    font-size: 17px;
+    height: 6.5vh;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     padding: 10px;
@@ -45,6 +48,57 @@
     
     
     
+}
+.datapro{
+    display: flex;
+    margin-top: 2vh;
+    align-items: center;
+    overflow-y: visible;
+}
+.detailpro{
+    display: flex;
+    width: 60%;
+    gap: 2vh;
+    margin-left: 4vh;
+    align-items: center;
+    
+}
+.detailpro img{
+    width: 30%;
+    height: 20vh;
+}
+.qunat{
+    margin-left: 3vh;
+    display: flex;
+    width: 15%;
+    gap: 2vh;
+}
+.qunat input{
+    width: 30%;
+    display: flex;
+    border: 2px solid rgba(159,90,245,255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.btnmi{
+    width: 2vw;
+    height: 4vh;
+    border-radius: 100%;
+    color: white;
+
+}
+.btnmi:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+.prc{
+    display: flex;
+    width: 10%;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2vh;
 }
 .cont2{
     background-color: rgb(245, 241, 236);
@@ -64,9 +118,13 @@ hr{
   width: 70%;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
-  padding: 10px;
+  padding: 10px; 
   color: white;
+  height: 6.5vh;
   
+}
+.cartorder h1{
+    font-size: 15px;
 }
 .subcc{
     margin-top: 4vh;
@@ -113,4 +171,76 @@ hr{
   .btnlog:hover{
     transform: scale(1.1);
     transition: 0.5s;
+  }
+  @media (max-width:1200px){
+    .container{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 110vh;
+        
+        
+    }
+    .cont1{
+        width: 95%;
+        margin-left: 1vh;
+        height: 100vh;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .yourcart h2 {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+       
+    }
+    .detailpro{
+        margin-left: 1vh;
+
+    }
+    .detailpro img{
+        height: 13vh;
+        width: 13vh;
+        
+    }
+    .qunat{
+        margin-left: 1vh;
+        width: 20%;
+        gap: 1vh;
+    }
+    .btnmi{
+        width: 5vw;
+        height: 4vh;
+        border-radius: 100%;
+        color: white;
+    
+    }
+    .cont2 {
+        width: 95%;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        box-shadow: 7px 0px 0px #e2d6f4  ;
+        margin-left: 1vh;
+        margin-bottom: 2vh;
+        height: 100vh;
+
+    }
+    .cartorder{
+        background: linear-gradient(45deg,rgba(165,90,246,255),rgba(118,80,214,255)) ;
+        width: 100%;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 00px;
+        padding: 10px; 
+        color: white;
+        height: 6.5vh;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-left: 0;
+        
+        
+      }
+
   }
