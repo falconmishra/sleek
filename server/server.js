@@ -8,17 +8,14 @@ import productRoutes from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import fileUpload from "express-fileupload";
+import multer from "multer";
 
 connectDB();
 
 const app = express();
-//configure morgan middleware
-app.use(
-  fileUpload({
-    useTempFiles: true,
-  })
-);
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
