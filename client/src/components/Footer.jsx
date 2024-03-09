@@ -45,7 +45,7 @@ export const Footer = () => {
             <li><Link to='pagenotfound'>Track Complaint</Link></li>
             <li><Link to='pagenotfound'>FAQs</Link></li>
             <li><Link to='pagenotfound'>Terms & Conditions</Link></li>
-            <li><Link to='pagenotfound'>Contact us</Link></li>
+            <li><Link to='contact'>Contact us</Link></li>
           </ul>
         </div>
         <div className="vl"></div>

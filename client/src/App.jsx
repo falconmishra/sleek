@@ -15,6 +15,7 @@ import { SearchResult } from "./components/SearchResult";
 import { Cart } from "./components/Cart";
 import { ProductDetails } from "./components/ProductDetails";
 import { Billing } from "./components/Billing";
+import { Contact } from "./components/contact";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/billing" element={<Billing />} />
+            <Route path="/contact" element={<Contact/>} />
           </Routes>
         </div>
         <Footer />

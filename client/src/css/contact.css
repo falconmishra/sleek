@@ -1,0 +1,132 @@
+.contact{
+    width: 100%;
+    background-color: white;
+    height: 110vh;
+    display: flex;
+
+}
+.textco{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.textco h1{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15vh;
+    color: black;
+    margin: 5vh 0vh 2vh 8vh ;
+}
+.textco p{
+    width: 50%;
+    margin-left: 15vh;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgba(159, 90, 245, 255) ;
+    opacity: 0.9;
+    display: flex;
+    float: left;
+    font-size: 3vh;
+    margin-bottom: 4vh;
+
+}
+.fomad1{
+    width: 70%;
+    border-right: 2px solid rgba(159,90,245,255);
+    
+}
+.formco{
+    width: 100%;
+}
+.formco form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 5vh;
+    
+    
+}
+.formco input{
+    width: 80%;
+    margin-left: 10vh;
+    color: rgba(159,90,245,255);
+    font-size: 3vh ;
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+    border-bottom: 2px solid rgba(159,90,245,255);
+    border-radius: 5px;
+    outline: none;
+    
+    
+}
+.formco input[type=text]::placeholder {
+  font-size: 3vh ;
+  opacity: 0.5;
+  color: rgba(159,90,245,255);
+  
+}
+.btnco{
+    border-radius: 30px;
+    width: 20%;
+    margin-top: 2%;
+    color: white;
+    
+    font-size: 3vh;
+}
+.fomad{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.adress{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+
+}
+.con{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid rgba(159,90,245,255);
+    
+    margin-left: 13vh;
+}
+.con h2{
+    font-size: 5vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-bottom: 2vh;
+    margin-top: 3vh;
+}
+.con p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgba(159,90,245,255);
+    margin-left: 4vh;
+    margin-bottom: 3vh;
+}
+.adr{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    margin-top: 3vh;
+}
+.adr h2{
+    font-size: 5vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-bottom: 2vh;
+    margin-top: 3vh;
+
+}
+.adr p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgba(159,90,245,255);
+    width: 70%;
+
+}
