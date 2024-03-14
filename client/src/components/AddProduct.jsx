@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
+=======
+import React from 'react'
+import '../css/addproduct.css'
+>>>>>>> 7201ba046213f4ca7c0248ec8dfc68fb928c6090
 
 export const AddProduct = () => {
   const [name, setName] = useState();
@@ -8,6 +13,7 @@ export const AddProduct = () => {
 
   const handlesubmit = async () => {};
   return (
+<<<<<<< HEAD
     <div className="flex bg-purp gap-4 bg-wh1 rounded-lg flex-col border h-full items-center justify-start p-8 ">
       <h2
         className="text-purp
@@ -91,3 +97,13 @@ export const AddProduct = () => {
     </div>
   );
 };
+=======
+    <div className='addpro'>
+      <div className="headprod">
+        Add Product
+      </div>
+
+    </div>
+  )
+}
+>>>>>>> 7201ba046213f4ca7c0248ec8dfc68fb928c6090

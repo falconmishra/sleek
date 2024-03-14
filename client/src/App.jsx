@@ -15,7 +15,11 @@ import { SearchResult } from "./components/SearchResult";
 import { Cart } from "./components/Cart";
 import { ProductDetails } from "./components/ProductDetails";
 import { Billing } from "./components/Billing";
+<<<<<<< HEAD
 import { Admin } from "./components/Admin";
+=======
+import { Contact } from "./components/contact";
+>>>>>>> 7201ba046213f4ca7c0248ec8dfc68fb928c6090
 
 function App() {
   return (
@@ -36,7 +40,11 @@ function App() {
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/billing" element={<Billing />} />
+<<<<<<< HEAD
             <Route path="*" element={<PageUnavailable />} />
+=======
+            <Route path="/contact" element={<Contact/>} />
+>>>>>>> 7201ba046213f4ca7c0248ec8dfc68fb928c6090
           </Routes>
         </div>
         <Footer />

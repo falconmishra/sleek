@@ -57,6 +57,7 @@ export const Footer = () => {
         <div className="flex-1">
           <h2 className="my-3 font-bold">Security</h2>
           <ul className="flex flex-col gap-3">
+<<<<<<< HEAD
             <li>
               <Link to="pagenotfound">Track Complaint</Link>
             </li>
@@ -69,6 +70,12 @@ export const Footer = () => {
             <li>
               <Link to="pagenotfound">Contact us</Link>
             </li>
+=======
+            <li><Link to='pagenotfound'>Track Complaint</Link></li>
+            <li><Link to='pagenotfound'>FAQs</Link></li>
+            <li><Link to='pagenotfound'>Terms & Conditions</Link></li>
+            <li><Link to='contact'>Contact us</Link></li>
+>>>>>>> 7201ba046213f4ca7c0248ec8dfc68fb928c6090
           </ul>
         </div>
         <div className="vl"></div>

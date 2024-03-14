@@ -6,6 +6,7 @@ import adress from '../images/adress.png'
 import paymento from '../images/paymento.png'
 import contact from '../images/contact.png'
 import offer from '../images/offer.png'
+import { Link } from 'react-router-dom'
 export const Dashboard = () => {
   return (
     <div className="count">
@@ -44,20 +45,24 @@ export const Dashboard = () => {
               <h4>Edit or add payment methods</h4>
             </div>
           </div>
-          <div className="firstbox">
+          <Link to='/contact' className="firstbox">
+          
             <img src={contact}/>
             <div className="inn">
+              
               <h2>Contact us</h2>
+              
               <h4></h4>
             </div>
-          </div>
-          <div className="firstbox">
+          </Link>
+          <Link to='/addproduct' className="firstbox">
+          
             <img src={offer}/>
             <div className="inn">
-              <h2>Offers</h2>
-              <h4>Get latest offers and discounts</h4>
+              <h2>Add Product</h2>
+              <h4>Only for eligible merchant</h4>
             </div>
-          </div>
+          </Link>
         </div>
         
       </div>
