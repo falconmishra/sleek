@@ -4,23 +4,45 @@ import "../css/btn.css";
 import login from "../images/login.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     axios
-      .post("http://localhost:8080/api/v1/auth/login", { email, password })
-      .then(() => {
-        alert("Logged in successfully");
-        navigate("/");
+      .post(
+        "http://localhost:8080/api/v1/auth/login",
+        { email, password },
+        { withCredntials: true, credentials: "include" }
+      )
+      .then((res) => {
+        alert(res.data.message);
+        if (res.data.success == true) {
+          navigate("/");
+          console.log(res);
+          // Cookies.set("token", res.data.token);
+        }
       })
-      .catch((err) => console.log(error));
+      .catch((error) => console.log(error));
   };
   return (
     <div className="login-h">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="contain">
         <div className="conatinerone">
           <img src={login} alt="" />

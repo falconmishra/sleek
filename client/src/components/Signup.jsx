@@ -21,11 +21,11 @@ export const Signup = () => {
         password,
         secretQuestion,
       })
-      .then(() => {
-        navigateTo("/login");
-        alert(
-          "Registered successfully. You can now login with your credentials"
-        );
+      .then((res) => {
+        alert(res.data.message);
+        if (res.data.success == true) {
+          navigate("/login");
+        }
       })
       .catch((error) => {
         console.log("error in registering ", error);

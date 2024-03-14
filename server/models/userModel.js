@@ -23,14 +23,14 @@ const userSchema = new mongoose.Schema(
 
       trim: true,
     },
-    resetToken: {
+    token: {
       type: String,
-      required: true,
       trim: true,
+      unique: true,
+      default: "",
     },
     resetExpire: {
       type: Date,
-      required: true,
       trim: true,
     },
     role: {

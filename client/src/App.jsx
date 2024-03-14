@@ -15,17 +15,19 @@ import { SearchResult } from "./components/SearchResult";
 import { Cart } from "./components/Cart";
 import { ProductDetails } from "./components/ProductDetails";
 import { Billing } from "./components/Billing";
+import { Admin } from "./components/Admin";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full min-h-fit">
         <Navbar />
         <div className="container bg-wh2 min-h-screen min-w-full flex justify-center items-center">
           <Routes>
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/addproduct" element={<AddProduct />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/pagenotfound" element={<PageUnavailable />} />
@@ -34,6 +36,7 @@ function App() {
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/productdetails" element={<ProductDetails />} />
             <Route path="/billing" element={<Billing />} />
+            <Route path="*" element={<PageUnavailable />} />
           </Routes>
         </div>
         <Footer />

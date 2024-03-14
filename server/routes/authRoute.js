@@ -28,6 +28,6 @@ router.get("/admin-test", requireSignIn, isAdmin, testController);
 
 //forgotPassword
 router.post("/forgot-password", forgotPasswordController);
-router.post("/reset-password/", resetPasswordController);
+router.post("/reset-password/:token", resetPasswordController);
 
 export default router;
