@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { RiTwitterXLine } from "react-icons/ri";
-import { FaMeta } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { FaTelegram } from "react-icons/fa";
 
 export const Footer = () => {
   return (
-    <div className="bg-gray-800 bottom-0 text-wh1 min-w-screen">
+    <div className="bg-gray-800  text-wh1 min-w-screen">
       <div className=" bg-gray-900 flex items-center justify-center">
         <p>&#169; Ashutosh and Akshat, 2023</p>
       </div>
@@ -57,7 +56,6 @@ export const Footer = () => {
         <div className="flex-1">
           <h2 className="my-3 font-bold">Security</h2>
           <ul className="flex flex-col gap-3">
-<<<<<<< HEAD
             <li>
               <Link to="pagenotfound">Track Complaint</Link>
             </li>
@@ -68,14 +66,8 @@ export const Footer = () => {
               <Link to="pagenotfound">Terms & Conditions</Link>
             </li>
             <li>
-              <Link to="pagenotfound">Contact us</Link>
+              <Link to="contact">Contact us</Link>
             </li>
-=======
-            <li><Link to='pagenotfound'>Track Complaint</Link></li>
-            <li><Link to='pagenotfound'>FAQs</Link></li>
-            <li><Link to='pagenotfound'>Terms & Conditions</Link></li>
-            <li><Link to='contact'>Contact us</Link></li>
->>>>>>> 7201ba046213f4ca7c0248ec8dfc68fb928c6090
           </ul>
         </div>
         <div className="vl"></div>

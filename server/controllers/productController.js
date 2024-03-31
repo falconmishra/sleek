@@ -2,6 +2,7 @@ import productModel from "../models/productModel.js";
 import slugify from "slugify";
 import fs from "fs";
 import { v2 as cloudinary } from "cloudinary";
+import categoryModel from "../models/categoryModel.js";
 
 cloudinary.config({
   cloud_name: "duogkpk5c",
@@ -9,26 +10,67 @@ cloudinary.config({
   api_secret: "3cy3nunfV8IG4KHI4IaXbpnYxdc",
 });
 
+const getCategory = async (slug) => {
+  const category = await categoryModel.findOne({ slug });
+  return category;
+};
+
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, category, quantity } = req.fields;
-    const { photo } = req.files;
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      discount,
+      MRP,
+      rating,
+      company,
+    } = req.body;
+    const photo = req.file.path;
 
     // Validations
-    if (!name || !description || !price || !category || !quantity) {
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !quantity ||
+      !rating ||
+      !MRP ||
+      !discount ||
+      !company
+    ) {
       return res.status(500).send({ message: "All fields are required" });
     }
 
-    if (!photo || (photo.size && photo.size > 1000000)) {
+    if (!photo) {
       return res
         .status(500)
         .send({ message: "Photo is required and should be less than 1 MB" });
     }
+    const categoryDoc = await getCategory(category);
     const cloudinaryUpload = await cloudinary.uploader.upload(
-      "../client/src/images/c1.jpg"
+      photo,
+      (err, res) => {
+        if (err) {
+          res
+            .status(500)
+            .send({ message: "Error in uploading image to cloudinary" });
+        }
+      }
     );
     const products = new productModel({
-      ...req.fields,
+      name,
+      description,
+      price,
+      category: categoryDoc._id,
+      quantity,
+      discount,
+      MRP,
+      rating,
+      company,
       slug: slugify(name),
       photo: cloudinaryUpload.url,
     });
@@ -53,8 +95,8 @@ export const getProductController = async (req, res) => {
     const products = await productModel
       .find({})
       .populate("category")
-      .select("-photo")
-      .limit(12)
+      // .select("-photo")
+      .limit(10)
       .sort({ createdAt: -1 });
 
     res.status(200).send({
@@ -77,7 +119,7 @@ export const getSingleProductController = async (req, res) => {
   try {
     const product = await productModel
       .findOne({ slug: req.params.slug })
-      .select("-photo")
+
       .populate("category");
     res.status(200).send({
       success: true,

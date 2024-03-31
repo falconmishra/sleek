@@ -14,6 +14,23 @@ const productSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    MRP: {
+      type: String,
+      require: true,
+    },
+    discount: {
+      type: String,
+      require: true,
+    },
+    rating: {
+      type: String,
+      require: true,
+    },
+    company: {
+      type: String,
+      require: true,
+    },
+
     price: {
       type: Number,
       require: true,

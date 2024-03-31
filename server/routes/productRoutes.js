@@ -1,5 +1,9 @@
 import express from "express";
-import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
+import {
+  isAdmin,
+  requireSignIn,
+  validateCookie,
+} from "../middlewares/authMiddleware.js";
 import {
   createProductController,
   deleteProductController,
@@ -10,14 +14,15 @@ import {
   updateProductController,
 } from "../controllers/productController.js";
 import fileUploadMiddleware from "../middlewares/productMiddlewares.js";
+import multer from "multer";
 
 const router = express.Router();
 
 //routes for products
 router.post(
   "/createProduct",
-  requireSignIn,
-  isAdmin,
+  // isAdmin,
+  validateCookie,
   fileUploadMiddleware,
   createProductController
 );
@@ -26,6 +31,7 @@ router.put(
   "/updateProduct/:pid",
   requireSignIn,
   isAdmin,
+  validateCookie,
   updateProductController
 );
 

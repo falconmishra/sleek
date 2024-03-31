@@ -10,6 +10,8 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import multer from "multer";
 
+// const upload = multer({ storage: storage });
+
 connectDB();
 
 const app = express();

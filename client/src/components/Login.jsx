@@ -2,47 +2,39 @@ import React, { useState } from "react";
 import "../css/login.css";
 import "../css/btn.css";
 import login from "../images/login.jpg";
-import axios from "axios";
+import axios from "../axiosbase";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import Cookies from "js-cookie";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { setAuth, setUser } from "../Slice/userSlice";
+import toast from "react-hot-toast";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     axios
-      .post(
-        "http://localhost:8080/api/v1/auth/login",
-        { email, password },
-        { withCredntials: true, credentials: "include" }
-      )
+      .post("/auth/login", { email, password })
       .then((res) => {
-        alert(res.data.message);
-        if (res.data.success == true) {
+        if (res.data.success) {
+          toast.success(res.data.message);
           navigate("/");
           console.log(res);
-          // Cookies.set("token", res.data.token);
+          dispatch(setUser(res.data.user));
+          if (res.data.token) {
+            dispatch(setAuth(true));
+          }
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => toast.e(error));
   };
   return (
     <div className="login-h">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <div className="contain">
         <div className="conatinerone">
           <img src={login} alt="" />

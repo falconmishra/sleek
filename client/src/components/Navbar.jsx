@@ -4,22 +4,28 @@ import { Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import useAuth from "../hooks/auth.js";
-import Cookies from "js-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import cookie from "js-cookie";
+import toast from "react-hot-toast";
 
 export const Navbar = () => {
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const [navOpen, setNavOpen] = useState(false);
-  const { isLoggedIn, logout } = useAuth();
-  useEffect(() => {}, [isLoggedIn]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, [isAuthenticated]);
 
   const toggleNav = () => {
     setNavOpen(!navOpen);
   };
 
   const handleLogout = () => {
-    logout(); // This will remove the authentication token and update the isLoggedIn state
-  };
+    dispatch(clearUser());
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
+    toast.success("Successfully logged out!");
+  };
+  const cart = useSelector((state) => state.cart);
   return (
     <div
       className={
@@ -62,9 +68,9 @@ export const Navbar = () => {
             </Link>
           </li>
 
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <li className="hoverline">
-              <Link className="navopts" to="/login" onClick={handleLogout}>
+              <Link className="navopts" onClick={handleLogout}>
                 Logout
               </Link>
             </li>
@@ -85,7 +91,7 @@ export const Navbar = () => {
 
           <li className="hoverline">
             <Link className="navopts" to="/cart">
-              Cart
+              Cart({cart.items.length})
             </Link>
           </li>
         </ul>

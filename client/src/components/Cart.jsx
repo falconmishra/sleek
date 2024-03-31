@@ -1,73 +1,49 @@
-import React from 'react'
-import '../css/cart.css'
-import '../css/btn.css'
-import c3 from '../images/c3.jpg'
+import React from "react";
+import "../css/cart.css";
+import "../css/btn.css";
+
+import CartCard from "./CartCard";
+import { useDispatch, useSelector } from "react-redux";
 export const Cart = () => {
+  const cart = useSelector((state) => state.cart.items);
+  const total = useSelector((state) => state.cart.TotalPrice);
+
   return (
-    <div className='cover'>
-      <div className='container'>
-        <div className="cont1">
-          <div className="yourcart">
-            <h2>your cart</h2>
-          </div>
-          <div className="datapro">
-            <div className="detailpro">
-              <img src={c3} alt="" />
-              <h2 className="tit">Lorem ipsum, dolor sit amet consectetur 
-              adipisicing elit.
-              </h2>
-            </div>
-            <div className="qunat">
-              <button className='btnmi btn2'>-</button>
-              <input type="text" placeholder=' 1' />
-              <button className='btnmi btn2'>+</button>
-            </div>
-            <div className="prc">
-              <h3>$$</h3>
-            </div>
-            
-          </div>
-          
-          </div>
+    <div class="h-screen bg-gray-100 pt-20 w-full">
+      <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
+      <div class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+        <div class="rounded-lg flex flex-col  justify-center md:w-2/3">
+          {cart.length ? (
+            cart.map((item) => <CartCard key={item.id} product={item} />)
+          ) : (
+            <p className="w-full flex justify-center">
+              Your shopping cart is empty.
+            </p>
+          )}
+        </div>
 
-        <div className="cont2">
-          <div className="cartorder">
-            <h1>Order Summary</h1>
+        <div class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+          <div class="mb-2 flex justify-between">
+            <p class="text-gray-700">Subtotal</p>
+            <p class="text-gray-700">${total}</p>
           </div>
-          <hr />
-          <div className="subcc">
-            <div className="left">
-              <div className='item'>
-                <h2>Items</h2>
-              </div>
-              <div className="cost"><h2>Cost</h2></div>
-              <div className="tax">
-                <h2>Tax</h2>
-              </div>
-              <div className="shipping">
-                <h2>Shipping cost</h2>
-              </div>
-              <div className='toatlcost'>
-                <h2>Total Cost</h2><hr />
-              </div>
+          <div class="flex justify-between">
+            <p class="text-gray-700">Shipping</p>
+            <p class="text-gray-700">$4.99</p>
+          </div>
+          <hr class="my-4" />
+          <div class="flex justify-between">
+            <p class="text-lg font-bold">Total</p>
+            <div class="">
+              <p class="mb-1 text-lg font-bold">${total + 4.99} USD</p>
+              <p class="text-sm text-gray-700">including GST</p>
             </div>
-          <div className="cost">
-            <div className="item"><h2>$</h2></div>
-            <div className="cost"><h2>$</h2></div>
-            <div className="tax"><h2>$</h2></div>
-            <div className="shipping"><h2>$</h2></div>
-            <div className="toatlcost"><h2>$</h2></div>
-            
-
           </div>
-          </div>
-            
-          
-          <div className="checkout"><button className='btn2 btnlog'>Checkout</button></div>
-
+          <button class="mt-6 w-full rounded-md bg-purp py-1.5 font-medium text-blue-50 hover:bg-purp2">
+            Check out
+          </button>
         </div>
       </div>
-
     </div>
-  )
-}
+  );
+};

@@ -15,12 +15,16 @@ export const Signup = () => {
 
   const handleSubmit = () => {
     axios
-      .post("http://localhost:8080/api/v1/auth/register", {
-        username,
-        email,
-        password,
-        secretQuestion,
-      })
+      .post(
+        "http://localhost:8080/api/v1/auth/register",
+        {
+          username,
+          email,
+          password,
+          secretQuestion,
+        },
+        { withCredentials: true, credentials: "include" }
+      )
       .then((res) => {
         alert(res.data.message);
         if (res.data.success == true) {
