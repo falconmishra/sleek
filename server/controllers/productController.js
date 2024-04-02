@@ -39,7 +39,6 @@ export const createProductController = async (req, res) => {
       !quantity ||
       !rating ||
       !MRP ||
-      !discount ||
       !company
     ) {
       return res.status(500).send({ message: "All fields are required" });
@@ -67,7 +66,7 @@ export const createProductController = async (req, res) => {
       price,
       category: categoryDoc._id,
       quantity,
-      discount,
+
       MRP,
       rating,
       company,

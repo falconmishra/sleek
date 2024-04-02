@@ -31,7 +31,9 @@ export const Card = ({ product }) => {
             className="flex-auto text-[1.15rem] font-semibold"
             onClick={setClick}
           >
-            <Link to="/productdetails">{product.name}</Link>
+            <Link to={`/productdetails?slug=${product.slug}`}>
+              {product.name}
+            </Link>
           </span>
           <div className="flex w-fit gap-1 items-center justify-end text-purp">
             {product.rating || "Rating"}
@@ -47,7 +49,7 @@ export const Card = ({ product }) => {
               ${product.MRP || "MRP"}
             </span>
             <span className="text-green-500">
-              {product.discount || "Discount"}% off
+              {Math.floor(100 - (product.price / product.MRP) * 100) || 5}% off
             </span>
           </div>
         </div>

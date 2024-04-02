@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "../css/signup.css";
 import "../css/btn.css";
 import login from "../images/login.jpg";
-import axios from "axios";
+import axios from "../axiosbase";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const Signup = () => {
   const [username, setUsername] = useState("");
@@ -15,20 +16,17 @@ export const Signup = () => {
 
   const handleSubmit = () => {
     axios
-      .post(
-        "http://localhost:8080/api/v1/auth/register",
-        {
-          username,
-          email,
-          password,
-          secretQuestion,
-        },
-        { withCredentials: true, credentials: "include" }
-      )
+      .post("http://localhost:8080/api/v1/auth/register", {
+        username,
+        email,
+        password,
+        secretQuestion,
+      })
+
       .then((res) => {
-        alert(res.data.message);
+        toast(res.data.message);
         if (res.data.success == true) {
-          navigate("/login");
+          navigateTo("/login");
         }
       })
       .catch((error) => {

@@ -2,6 +2,7 @@ import React from "react";
 import "../css/addproduct.css";
 import { useState } from "react";
 import axios from "../axiosbase";
+import toast from "react-hot-toast";
 
 export const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -56,6 +57,11 @@ export const AddProduct = () => {
       );
 
       console.log(response.data); // Log response from server
+      if (response.data.success) {
+        toast.success(response.data.message);
+      } else {
+        toast(response.data.error.message);
+      }
     } catch (error) {
       console.error("Error:", error); // Log any errors
     }
@@ -96,12 +102,20 @@ export const AddProduct = () => {
             <label htmlFor="name" className="bg-none">
               Description :
             </label>
-            <input
+            {/* <input
               name="description"
               value={formData.description}
               onChange={handleChange}
-              type="text"
+              type="textarea"
               id=""
+            /> */}
+            <textarea
+              id="myTextArea"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows={5} // Adjust the number of rows as needed
+              cols={40} // Adjust the number of columns as needed
             />
           </div>
           <div className="flex gap-1">
@@ -128,18 +142,7 @@ export const AddProduct = () => {
               id=""
             />
           </div>
-          <div className="flex gap-1">
-            <label htmlFor="name" className="bg-none">
-              Discount % :
-            </label>
-            <input
-              type="text"
-              value={formData.discount}
-              onChange={handleChange}
-              name="discount"
-              id=""
-            />
-          </div>
+
           <div className="flex gap-1">
             <label htmlFor="name" className="bg-none">
               Category :

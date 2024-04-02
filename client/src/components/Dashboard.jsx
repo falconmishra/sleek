@@ -6,19 +6,48 @@ import adress from "../images/adress.png";
 import paymento from "../images/paymento.png";
 import contact from "../images/contact.png";
 import offer from "../images/offer.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 export const Dashboard = () => {
   const user = useSelector((state) => state.user);
   console.log(user);
+  const navigateTo = useNavigate();
   return (
     <div className="count flex items-center justify-center">
       {user.user ? (
         <>
           <div className="hello">
-            <h1>Hello, {user.user.email}</h1>
+            <h1>Hello, {user.user.username}</h1>
           </div>
-          <div className="div">
+          {user.isAdmin ? (
+            <div className="adminContainer flex items-center flex-col flex-wrap ">
+              <h1 className="text-2xl text-bold">Admin Controls</h1>
+              <div className="flex">
+                <div
+                  className="boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
+                  onClick={() => navigateTo("/setCategories")}
+                >
+                  Set categories
+                </div>
+                <div
+                  onClick={() => navigateTo("/addProduct")}
+                  className="boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
+                >
+                  Add Product
+                </div>
+                <div
+                  className="boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
+                  onClick={() => navigateTo("/removeProduct")}
+                >
+                  Remove Product
+                </div>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+
+          <div className="div flex-wrap flex">
             <div className="box">
               <div className="firstbox">
                 <img src={order} />
@@ -56,13 +85,6 @@ export const Dashboard = () => {
                   <h2>Contact us</h2>
 
                   <h4></h4>
-                </div>
-              </Link>
-              <Link to="/addproduct" className="firstbox">
-                <img src={offer} />
-                <div className="inn">
-                  <h2>Add Product</h2>
-                  <h4>Only for eligible merchant</h4>
                 </div>
               </Link>
             </div>

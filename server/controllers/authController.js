@@ -44,10 +44,10 @@ export const routerController = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    console.log("This is the error " + error);
     res.status(500).send({
       sucess: false,
-      message: "Error in registration ",
+      message: error,
       error,
     });
   }
@@ -96,8 +96,11 @@ export const loginController = async (req, res) => {
       message: "Logged in successfully",
       user: {
         email: user.email,
+        username: user.username,
+        id: user._id,
       },
       token,
+      isAdmin: user.role ? true : false,
     });
     // cookieParser.JSONCookie(token);
   } catch (error) {

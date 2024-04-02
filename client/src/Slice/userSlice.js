@@ -7,6 +7,7 @@ const initialState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  isAdmin: false,
 };
 
 const userSlice = createSlice({
@@ -18,6 +19,7 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
       state.loading = false;
       state.error = null;
+      state.isAdmin = false;
     },
     clearUser: (state) => {
       state.user = null;
@@ -32,9 +34,13 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    setAdmin: (state, action) => {
+      state.isAdmin = true;
+    },
   },
 });
 
-export const { setUser, clearUser, setAuth, setError } = userSlice.actions;
+export const { setUser, clearUser, setAuth, setError, setAdmin } =
+  userSlice.actions;
 
 export default userSlice.reducer;

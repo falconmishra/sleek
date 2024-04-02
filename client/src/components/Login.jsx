@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "../css/login.css";
 import "../css/btn.css";
 import login from "../images/login.jpg";
-import axios from "../axiosbase";
+import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { setAuth, setUser } from "../Slice/userSlice";
+import { setAuth, setUser, setAdmin } from "../Slice/userSlice";
 import toast from "react-hot-toast";
 
 export const Login = () => {
@@ -19,19 +20,25 @@ export const Login = () => {
 
   const handleSubmit = async () => {
     axios
-      .post("/auth/login", { email, password })
+      .post("http://localhost:8080/api/v1/auth/login", { email, password })
       .then((res) => {
         if (res.data.success) {
           toast.success(res.data.message);
           navigate("/");
+          document.cookie = `token=${res.data.token}`;
           console.log(res);
           dispatch(setUser(res.data.user));
+          if (res.data.isAdmin == true) {
+            dispatch(setAdmin(true));
+          }
           if (res.data.token) {
             dispatch(setAuth(true));
           }
+        } else {
+          toast(res.data.message);
         }
       })
-      .catch((error) => toast.e(error));
+      .catch((error) => console.log(error));
   };
   return (
     <div className="login-h">
@@ -59,7 +66,11 @@ export const Login = () => {
                 placeholder="Password"
               />
             </div>
-            <button className="btn2 btnlog" onClick={handleSubmit}>
+            <button
+              // variant="contained "
+              className="btn2  bg-purp btnlog"
+              onClick={handleSubmit}
+            >
               Login
             </button>
 
