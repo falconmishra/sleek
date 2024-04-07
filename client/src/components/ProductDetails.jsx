@@ -89,7 +89,9 @@ export const ProductDetails = (match) => {
                 <li>Lorem ipsum dolor sit amet.</li>
               </ul>
             </div>
-            <div>Delivery in 3 days</div>
+            <div>
+              Delivery in <span>{clicked.deliverIn || "7"}</span> days
+            </div>
             <div className="flex gap-2 justify-center my-2">
               <button
                 onClick={addToCart}

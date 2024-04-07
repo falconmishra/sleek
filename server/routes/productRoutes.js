@@ -9,9 +9,10 @@ import {
   deleteProductController,
   getProductController,
   getSingleProductController,
-  productFiltersController,
+  getProductByCategory,
   productPhotoController,
   updateProductController,
+  searchProduct,
 } from "../controllers/productController.js";
 import fileUploadMiddleware from "../middlewares/productMiddlewares.js";
 import multer from "multer";
@@ -48,6 +49,7 @@ router.get("/productPhoto/:pid", productPhotoController);
 router.delete("/deleteProduct/:pid", deleteProductController);
 
 //filter product
-router.get("/productFilters", productFiltersController);
+router.get("/getProductsByCategory/:category", getProductByCategory);
+router.get("/searchProduct/:query", searchProduct);
 
 export default router;

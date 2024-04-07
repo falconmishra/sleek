@@ -10,7 +10,7 @@ export const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [secretQuestion, setSecretQuestion] = useState("");
+  const [address, setAddress] = useState("");
 
   const navigateTo = useNavigate();
 
@@ -20,13 +20,16 @@ export const Signup = () => {
         username,
         email,
         password,
-        secretQuestion,
+        address,
       })
 
       .then((res) => {
-        toast(res.data.message);
+        console.log(res);
         if (res.data.success == true) {
+          toast.success(res.data.message);
           navigateTo("/login");
+        } else {
+          toast(res.data.message || res.data.error);
         }
       })
       .catch((error) => {
@@ -59,14 +62,7 @@ export const Signup = () => {
                 placeholder="Email"
               />
             </div>
-            <div className="comp">
-              <input
-                type="text"
-                value={secretQuestion}
-                onChange={(e) => setSecretQuestion(e.target.value)}
-                placeholder=" Your favorite sport"
-              />
-            </div>
+
             <div className="comp">
               <input
                 type="password"
@@ -75,11 +71,23 @@ export const Signup = () => {
                 placeholder="Password"
               />
             </div>
+            <div className="comp border ">
+              <textarea
+                id="myTextArea"
+                name="address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                rows={5} // Adjust the number of rows as needed
+                cols={40} // Adjust the number of columns as needed
+              />
+            </div>
             <button className="btn2 btnlog" onClick={handleSubmit}>
               Register
             </button>
 
-            <h3>Already have an account?</h3>
+            <h3 className="cursor-pointer" onClick={() => navigateTo("/login")}>
+              Already have an account?
+            </h3>
           </div>
         </div>
       </div>

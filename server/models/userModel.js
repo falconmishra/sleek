@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
       default: "",
     },
+    address: {
+      type: String,
+
+      trim: true,
+    },
     resetExpire: {
       type: Date,
       trim: true,

@@ -3,16 +3,10 @@ import "../css/css2.css";
 import "../css/imageStyle.css";
 import "../css/home.css";
 import { Row } from "./Row";
-import landing from "../images/landing.jpg";
-import landing2 from "../images/landing2.jpg";
-import landing3 from "../images/landing3.jpg";
-import c1 from "../images/c1.jpg";
-import c2 from "../images/c2.jpg";
-import c3 from "../images/c3.jpg";
-import c4 from "../images/c4.jpg";
-import c5 from "../images/c5.jpg";
-import c6 from "../images/c6.jpg";
+import Row2 from "./Row2";
 import axios from "../axiosbase";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategories } from "../Slice/categorySlice";
 
 const getdata = async () => {
   let res = await axios.get("/product/getProducts");
@@ -20,11 +14,29 @@ const getdata = async () => {
 };
 
 export const Home = () => {
+  const dispatch = useDispatch();
+  const getCategories = async () => {
+    let res = await axios.get("/category/getCategories");
+    let res2 = res.data.category;
+
+    dispatch(setCategories(res2));
+  };
+
+  getCategories();
+
   return (
-    <>
-      <div>
-        <Row name={"Akshat"} products={getdata()}></Row>
-      </div>
-    </>
+    <div className="w-full flex flex-col h-[100vh] overflow-x-hidden overflow-y-none">
+      {/* <Row
+          name={"Akshat"}
+          category={"Electronics"}
+          products={getdata()}
+        ></Row>
+
+        <Row2 className="" category={"Electronics"}></Row2>
+      <Row2 className="" category={"Kids"}></Row2> */}
+      <Row name={"Akshat"} category={"Electronics"} products={getdata()}></Row>
+      <Row2 className="" category={"Electronics"}></Row2>
+      <Row2 className="" category={"Electronics"}></Row2>
+    </div>
   );
 };

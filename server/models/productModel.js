@@ -26,7 +26,15 @@ const productSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    categoryName: {
+      type: String,
+      require: true,
+    },
     company: {
+      type: String,
+      require: true,
+    },
+    deliverIn: {
       type: String,
       require: true,
     },

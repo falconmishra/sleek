@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/cart.css";
 import "../css/btn.css";
 
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 export const Cart = () => {
   const cart = useSelector((state) => state.cart.items);
   const total = useSelector((state) => state.cart.TotalPrice);
-
+  const shipping = cart.length === 0 ? 0 : 4.99;
   return (
     <div class="h-screen bg-gray-100 pt-20 w-full">
       <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
@@ -29,13 +29,13 @@ export const Cart = () => {
           </div>
           <div class="flex justify-between">
             <p class="text-gray-700">Shipping</p>
-            <p class="text-gray-700">$4.99</p>
+            <p class="text-gray-700">${shipping}</p>
           </div>
           <hr class="my-4" />
           <div class="flex justify-between">
             <p class="text-lg font-bold">Total</p>
             <div class="">
-              <p class="mb-1 text-lg font-bold">${total + 4.99} USD</p>
+              <p class="mb-1 text-lg font-bold">${total + shipping} USD</p>
               <p class="text-sm text-gray-700">including GST</p>
             </div>
           </div>

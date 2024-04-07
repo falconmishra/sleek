@@ -5,7 +5,7 @@ import axios from "../axiosbase";
 import toast from "react-hot-toast";
 import Button from "@mui/joy/Button";
 
-export const AddProduct = () => {
+const EditProduct = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -88,7 +88,7 @@ export const AddProduct = () => {
         className="text-purp
        text-xl font-semibold"
       >
-        Add a Product
+        Edit a Product
       </h2>
       <form onSubmit={handleSubmit} enctype="multipart/form-data">
         <div className="form gap-6 flex flex-col">
@@ -236,3 +236,5 @@ export const AddProduct = () => {
     </div>
   );
 };
+
+export default EditProduct;

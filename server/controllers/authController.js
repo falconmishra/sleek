@@ -3,23 +3,31 @@ import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import randonString from "randomstring";
+import productModel from "../models/productModel.js";
 
 //register function
 export const routerController = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, address } = req.body;
 
     //validations
     if (!username) {
       res.send({ error: "username is required" });
+      return;
     }
 
     if (!email) {
       res.send({ error: "email is required" });
+      return;
     }
 
     if (!password) {
       res.send({ error: "password is required" });
+      return;
+    }
+    if (!address) {
+      res.send({ error: "password is required" });
+      return;
     }
 
     //checking for existing user
@@ -27,7 +35,8 @@ export const routerController = async (req, res) => {
     const userExsist = await userModel.findOne({ email });
 
     if (userExsist) {
-      res.status(200).send({ Message: "User with that email already exists" });
+      res.status(200).send({ message: "User with that email already exists" });
+      return;
     }
 
     //register User
@@ -35,6 +44,7 @@ export const routerController = async (req, res) => {
     const user = await new userModel({
       username,
       email,
+      address,
       password: hashPassword,
     }).save();
 
@@ -87,6 +97,11 @@ export const loginController = async (req, res) => {
       expiresIn: "7d",
     });
     const expirationDate = new Date(Date.now() + 2589200000);
+
+    user.token = token;
+    user.tokenExpiration = expirationDate;
+    await user.save();
+
     res.cookie("token", token, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
@@ -98,6 +113,7 @@ export const loginController = async (req, res) => {
         email: user.email,
         username: user.username,
         id: user._id,
+        address: user.address,
       },
       token,
       isAdmin: user.role ? true : false,
@@ -114,8 +130,36 @@ export const loginController = async (req, res) => {
 };
 
 //test controller
-export const testController = (req, res) => {
-  res.send("Protected route");
+export const testController = async (req, res) => {
+  const { token } = req.cookie || req.cookies;
+  if (!token) {
+    res.status(200).send({
+      success: false,
+      message: "No token is found",
+    });
+    return;
+  }
+  const user = await userModel.findOne({ token });
+  if (!user) {
+    res.status(200).send({
+      success: false,
+      message: "No user found with that token",
+      token: token,
+    });
+    return;
+  }
+  res.status(200).send({
+    success: true,
+    message: "token found successfully",
+    user: {
+      email: user.email,
+      username: user.username,
+      id: user._id,
+      address: user.address,
+    },
+    token,
+    isAdmin: user.role ? true : false,
+  });
 };
 
 const sendResetPasswordMail = async (email, token) => {

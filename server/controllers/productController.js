@@ -3,6 +3,7 @@ import slugify from "slugify";
 import fs from "fs";
 import { v2 as cloudinary } from "cloudinary";
 import categoryModel from "../models/categoryModel.js";
+import { query } from "express";
 
 cloudinary.config({
   cloud_name: "duogkpk5c",
@@ -14,6 +15,12 @@ const getCategory = async (slug) => {
   const category = await categoryModel.findOne({ slug });
   return category;
 };
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export const createProductController = async (req, res) => {
   try {
@@ -44,7 +51,7 @@ export const createProductController = async (req, res) => {
       return res.status(500).send({ message: "All fields are required" });
     }
 
-    if (!photo) {
+    if (!photo && !photo.path) {
       return res
         .status(500)
         .send({ message: "Photo is required and should be less than 1 MB" });
@@ -65,13 +72,15 @@ export const createProductController = async (req, res) => {
       description,
       price,
       category: categoryDoc._id,
+      categoryName: category,
       quantity,
 
       MRP,
       rating,
       company,
-      slug: slugify(name),
+      slug: slugify(name.toLowerCase()),
       photo: cloudinaryUpload.url,
+      deliverIn: getRandomInt(1, 7),
     });
     await products.save();
     res.status(201).send({
@@ -189,7 +198,7 @@ export const updateProductController = async (req, res) => {
         return res.status(500).send({ error: "Category is Required" });
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
-      case !photo && photo.size > 10000000:
+      case !photo && photo.size > 10000000 && !photo.path:
         return res
           .status(500)
           .send({ error: "photo is Required and should be less then 1mb" });
@@ -226,4 +235,50 @@ export const updateProductController = async (req, res) => {
   }
 };
 
-export const productFiltersController = () => {};
+export const getProductByCategory = async (req, res) => {
+  const products = await productModel.find({
+    categoryName: req.params.category,
+  });
+
+  if (products) {
+    res.status(200).send({
+      success: true,
+      products: products,
+      message: "Product fetched by category successfully",
+      total_count: products.length,
+    });
+  } else {
+    res.status(500).send({
+      success: false,
+      message: "Error while fetching product through category",
+    });
+  }
+};
+
+export const searchProduct = async (req, res) => {
+  try {
+    const { query } = req.params;
+
+    const data = await productModel.find({
+      slug: { $regex: ".*" + query + ".*", $options: "i" },
+    });
+    if (data.length == 0) {
+      res.status(200).send({
+        success: false,
+        message: "No product found for that query",
+      });
+      return;
+    }
+    res.status(200).send({
+      success: true,
+      message: "Products Found ",
+      total_count: data.length,
+      results: data,
+    });
+  } catch (error) {
+    res.status(400).send({
+      success: false,
+      message: error.message,
+    });
+  }
+};

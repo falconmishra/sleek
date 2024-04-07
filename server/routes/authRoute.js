@@ -21,7 +21,7 @@ router.post("/register", routerController);
 router.post("/login", loginController);
 
 //user router
-router.get("/test", validateCookie, testController);
+router.get("/getUserByToken/:token", validateCookie, testController);
 
 //protected admin route
 router.get("/admin-test", requireSignIn, isAdmin, testController);

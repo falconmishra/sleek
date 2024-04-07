@@ -13,6 +13,8 @@ export const Navbar = () => {
   const [navOpen, setNavOpen] = useState(false);
   const dispatch = useDispatch();
 
+  const [query, setQuery] = useState("");
+
   useEffect(() => {}, [isAuthenticated]);
 
   const toggleNav = () => {
@@ -21,7 +23,7 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(clearUser());
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    cookie.remove("token");
 
     toast.success("Successfully logged out!");
   };
@@ -45,15 +47,17 @@ export const Navbar = () => {
       </div>
 
       <div className="flex items-center justify-center gap-3 flex-1">
-        <div className="flex bg-purple-100 items-center rounded-lg search">
+        <div className="flex bg-white  items-center rounded-lg search">
           <input
             className="focus:outline-none bg-transparent ml-3 inp"
             type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
             name=""
             id=""
           />
           <div className="bg-purp hover:bg-purple-500 rounded-tr-lg rounded-br-lg p-1 ">
-            <Link to="searchresult">
+            <Link to={`/searchresult?q=${query}`}>
               <CiSearch style={{ color: "white", fontSize: "30px" }} />
             </Link>
           </div>

@@ -1,6 +1,12 @@
-:root{
-    background: #ccc8c8;
-}
-*{
-    box-sizing: border-box;
-}
+    :root{
+        background: #ccc8c8;
+    }
+
+    ::selection {
+        background: #8f00ff; /* Background color of the selection */
+        color: white; /* Text color of the selection */
+    }
+    *{
+        box-sizing: border-box;
+    }
+    

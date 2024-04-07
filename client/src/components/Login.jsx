@@ -24,6 +24,7 @@ export const Login = () => {
       .then((res) => {
         if (res.data.success) {
           toast.success(res.data.message);
+          console.log(res.data);
           navigate("/");
           document.cookie = `token=${res.data.token}`;
           console.log(res);
@@ -32,7 +33,7 @@ export const Login = () => {
             dispatch(setAdmin(true));
           }
           if (res.data.token) {
-            dispatch(setAuth(true));
+            dispatch(setAuth(res.data.user.id));
           }
         } else {
           toast(res.data.message);
@@ -74,8 +75,15 @@ export const Login = () => {
               Login
             </button>
 
-            <h3>Create an account</h3>
-            <h4>Forgot password?</h4>
+            <h3 className="cursor-pointer" onClick={() => navigate("/signup")}>
+              Create an account
+            </h3>
+            <h4
+              className="cursor-pointer"
+              onClick={() => navigate("/forgetPassword")}
+            >
+              Forgot password?
+            </h4>
           </div>
         </div>
       </div>

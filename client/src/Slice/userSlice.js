@@ -28,7 +28,7 @@ const userSlice = createSlice({
       state.error = null;
     },
     setAuth: (state, action) => {
-      state.isAuthenticated = true;
+      state.isAuthenticated = action.payload;
     },
     setError: (state, action) => {
       state.error = action.payload;

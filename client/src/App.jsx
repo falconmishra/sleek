@@ -1,4 +1,3 @@
-import "./App.css";
 import { Login } from "./components/Login";
 import { Signup } from "./components/Signup";
 import { Home } from "./components/Home";
@@ -19,22 +18,56 @@ import { useSelector } from "react-redux";
 
 import { Toaster } from "react-hot-toast";
 import SetCategories from "./components/SetCategories";
+import ForgetPassword from "./components/ForgetPassword";
+import EditProduct from "./components/EditProduct";
+import "./App.css";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import axios from "./axiosbase";
+
+import { setAuth, setUser, setAdmin } from "./Slice/userSlice";
+import { useEffect } from "react";
+// Get the value of the 'token' cookie
 
 function App() {
+  const token = Cookies.get("token");
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  useEffect(() => {
+    const setUser1 = async () => {
+      if (token) {
+        try {
+          let res = await axios.get(`/auth/getUserByToken/${token}`);
+          dispatch(setUser(res.data.user));
+          if (res.data.isAdmin == true) {
+            dispatch(setAdmin(true));
+          }
+          if (res.data.token) {
+            dispatch(setAuth(res.data.user.id));
+          }
+        } catch (error) {
+          console.error("Error while fetching user:", error);
+        }
+      }
+    };
+
+    setUser1();
+  }, [token, dispatch]);
   return (
     <BrowserRouter>
       <div className="flex flex-col w-full min-h-fit">
         <Navbar />
-        <div className="container bg-wh2 min-h-screen min-w-full flex justify-center items-center">
+        <div className="container bg-wh2 min-h-fit h-screen min-w-full flex justify-center items-center">
           <Routes>
             {user.isAdmin ? (
               <>
                 <Route path="/addproduct" element={<AddProduct />} />
-                <Route path="/addproduct" element={<AddProduct />} />
+                <Route path="/removeProduct" element={<RemoveProduct />} />
                 <Route path="/setCategories" element={<SetCategories />} />
+                <Route path="/editProduct" element={<EditProduct />} />
                 <Route index element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/forgetPassword" element={<ForgetPassword />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -50,6 +83,7 @@ function App() {
               <>
                 <Route index element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/forgetPassword" element={<ForgetPassword />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/dashboard" element={<Dashboard />} />

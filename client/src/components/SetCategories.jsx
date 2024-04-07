@@ -4,33 +4,54 @@ import axios from "../axiosbase";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 function SetCategories() {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
+  const [inp, setInp] = useState("");
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     const fetchCategories = async () => {
-      axios
-        .get("/category/getCategories", {
-          params: {
-            id: user.id,
-          },
-        })
-        .then((res) => {
-          setCategories(res.data.category);
-          console.log(res.data);
-        });
+      axios.get("/category/getCategories").then((res) => {
+        setCategories(res.data.category);
+        console.log(res.data);
+      });
     };
     fetchCategories();
   }, []);
+
+  const addCategory = async () => {
+    const res = await axios.post(
+      "/category/createCategory",
+      {
+        name: inp,
+      },
+      {
+        params: {
+          userId: user.id,
+        },
+      }
+    );
+    if (res.data.sucess) {
+      toast.success(res.data.message);
+    } else {
+      toast(res.data.message);
+    }
+  };
+
   const handleDelete = (id) => {
     console.log(id);
-    axios.delete(`/category/deleteCategory/${id}`).then((res) => {
-      if (res.data.success) {
-        toast.success("Category deleted successfully");
-      } else {
-        console.log(res.data);
-        toast(res.data.message);
-      }
-    });
+    axios
+      .delete(`/category/deleteCategory/${id}`, {
+        params: {
+          userId: user.id,
+        },
+      })
+      .then((res) => {
+        if (res.data.success) {
+          toast.success("Category deleted successfully");
+        } else {
+          console.log(res.data);
+          toast(res.data.message);
+        }
+      });
   };
   return (
     <div>
@@ -40,8 +61,11 @@ function SetCategories() {
           className="border border-g1 w-64"
           name="category"
           id=""
+          onChange={(e) => setInp(e.target.value)}
         />
-        <Button variant="solid">Add Category</Button>
+        <Button variant="solid" onClick={addCategory}>
+          Add Category
+        </Button>
       </div>
       <div className="bg-white p-10 m-4 ">
         <ul>

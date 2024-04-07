@@ -24,22 +24,22 @@ export const Dashboard = () => {
               <h1 className="text-2xl text-bold">Admin Controls</h1>
               <div className="flex">
                 <div
-                  className="boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
+                  className="cursor-pointer boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
                   onClick={() => navigateTo("/setCategories")}
                 >
                   Set categories
                 </div>
                 <div
                   onClick={() => navigateTo("/addProduct")}
-                  className="boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
+                  className="cursor-pointer boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
                 >
                   Add Product
                 </div>
                 <div
-                  className="boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
+                  className="cursor-pointer boxes h-32 w-64 rounded-lg flex items-center justify-center bg-g1 m-4 wrap"
                   onClick={() => navigateTo("/removeProduct")}
                 >
-                  Remove Product
+                  Manage Product
                 </div>
               </div>
             </div>

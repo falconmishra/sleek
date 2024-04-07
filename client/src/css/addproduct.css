@@ -3,3 +3,18 @@
     height: 110vh;
     width: 100%;
 }
+.media{
+    width: 100%;
+}
+.w-fill{
+    width: strech  !important;
+}
+.inline{
+    display: inline;
+}
+@media screen and (max-width : 600px) {
+    .media{
+        flex-direction: column !important;
+    }
+    
+}

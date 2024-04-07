@@ -1,41 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "./Card";
-import Popup from "reactjs-popup"; // Import Popup component
+import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "../css/hidder.css";
 import "../css/btn.css";
 import LinearProgress from "@mui/joy/LinearProgress";
 import { FaSortAlphaDown, FaFilter } from "react-icons/fa";
 import axios from "../axiosbase";
-import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import toast from "react-hot-toast";
+import Button from "@mui/material/Button";
 
-let result;
-
-const getProducts = async () => {
-  let res = await axios.get("/product/getProducts");
-  result = await res.data.products;
-  return result;
-};
-
-export const Row = ({ name, products }) => {
-  const [loading, setLoading] = useState(true);
+function Row2({ category }) {
   const [productList, setProductList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [sortBy, setSortBy] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const fetchedProducts = await getProducts();
-      if (fetchProducts) {
+      try {
+        const fetchedProduct = await axios.get(
+          `/product/getProductsByCategory/${category}`
+        );
+        const fetchedProducts2 = fetchedProduct.data.products;
+        setProductList(fetchedProducts2);
+        console.log(productList);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
         setLoading(false);
       }
-      setProductList(fetchedProducts);
-      console.log(fetchedProducts);
     };
 
     fetchProducts();
-  }, [products]);
+  }, [category]); // Include category in the dependency array
+
+  if (loading) {
+    return (
+      <div className="w-full flex items-center my-2">
+        <div className="w-1/2">
+          <LinearProgress sx={{ bgcolor: "#fdfdfd", color: "#9a59f0" }} />
+        </div>
+      </div>
+    );
+  }
 
   const handleSort = (sortBy) => {
     let sortedProducts = [...productList];
@@ -62,26 +72,10 @@ export const Row = ({ name, products }) => {
     setProductList(sortedProducts);
   };
 
-  if (loading) {
-    return (
-      <div className="w-full flex items-center my-2">
-        <div className="w-1/2">
-          <LinearProgress sx={{ bgcolor: "#fdfdfd", color: "#9a59f0" }} />
-        </div>
-      </div>
-    );
-  } else if (!productList) {
-    return (
-      <div>
-        <p>No products to show :( </p>
-      </div>
-    );
-  }
-
   return (
     <div className="w-screen color-w1 p-4 px-8 scroll-hide bg-wh1">
       <div className="w-full Row flex justify-between ">
-        <span className="text-2xl">{name}</span>
+        <span className="text-2xl">All new in {category}</span>
         <div className="flex gap-4">
           <Popup
             trigger={
@@ -158,7 +152,7 @@ export const Row = ({ name, products }) => {
                     style={{ backgroundColor: "#8f00ff", color: "white" }}
                     onClick={() => {
                       handleSort(sortBy);
-                      toast.success("Products Sorted");
+                      toast.success("Product Sorted");
                       close();
                     }}
                   >
@@ -180,12 +174,20 @@ export const Row = ({ name, products }) => {
       </div>
 
       <div className="border my-4 flex gap-4 overflow-x-auto overflow-clip w-full scroll-hide ">
-        {productList.map((product, index) => (
-          <div key={index} className="flex gap-8 border-none cursor-grab">
-            <Card product={product} />
-          </div>
-        ))}
+        {productList.length > 0 ? (
+          productList.map((product, index) => (
+            <div key={index} className="flex gap-8 border-none cursor-grab">
+              <Card product={product} />
+            </div>
+          ))
+        ) : (
+          <>
+            <h4>No Products to show :(</h4>
+          </>
+        )}
       </div>
     </div>
   );
-};
+}
+
+export default Row2;

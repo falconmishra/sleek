@@ -5,6 +5,7 @@ import "../css/btn.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../Slice/cartSlice";
 import { setClickedProduct } from "../Slice/clickedProductSlice";
+import "../css/card.css";
 
 export const Card = ({ product }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export const Card = ({ product }) => {
   };
 
   return (
-    <div className="bg-white h-fit w-72 p-2 rounded-xl cursor-default">
+    <div className="card bg-white h-fit w-72 p-2 rounded-xl cursor-default hover:scale-[101%] transition-all duration-200">
       <div>
         <img
           className=" w-full h-64 object-cover object-center rounded-lg"

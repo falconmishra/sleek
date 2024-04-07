@@ -1,7 +1,53 @@
-import React from 'react'
+import axios from "../axiosbase";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Card } from "./Card";
+import toast from "react-hot-toast";
 
 export const SearchResult = () => {
+  const [searchParams] = useSearchParams();
+  const q = searchParams.get("q");
+  const [searchProducts, setSearchProducts] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (q) {
+          const res = await toast.promise(
+            axios.get(`/product/searchProduct/${q}`),
+            {
+              loading: "Searching products...", // Optional loading message
+              success: "Searched Products!", // Success message
+              error: "Error searching products", // Error message
+            }
+          );
+          setSearchProducts(res.data);
+        }
+      } catch (error) {
+        console.error("Error:", error); // Handle error
+        toast.error("Error searching products");
+      }
+    };
+
+    fetchData();
+  }, [q]);
+
   return (
-    <div>SearchResult</div>
-  )
-}
+    <div className="flex flex-wrap flex-col w-full gap-10 items-center  ">
+      <h2 className="text-2xl font-semibold">
+        Found {searchProducts.total_count || 0}{" "}
+        {searchProducts.total_count == 1 ? "result" : "results"} for "{q}"
+      </h2>
+      <div className="flex gap-2 p-6 flex w-full items-start">
+        {searchProducts &&
+        searchProducts.results &&
+        searchProducts.results.length > 0 ? (
+          searchProducts.results.map((product, index) => (
+            <Card key={index} product={product} />
+          ))
+        ) : (
+          <p>No results found</p>
+        )}
+      </div>
+    </div>
+  );
+};
