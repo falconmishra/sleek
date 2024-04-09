@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector, useDispatch } from "react-redux";
 import cookie from "js-cookie";
 import toast from "react-hot-toast";
+
+import Badge from "@mui/material/Badge";
 
 export const Navbar = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);

@@ -7,9 +7,12 @@ import { addItemToCart } from "../Slice/cartSlice";
 import axios from "../axiosbase";
 
 import { useLocation } from "react-router-dom";
+import { addOrder } from "../Slice/orderSlice";
+import { useNavigate } from "react-router-dom";
 
 export const ProductDetails = (match) => {
   // const clicked = useSelector((state) => state.clicked.product);
+  const nav = useNavigate();
   const [clicked, setClicked] = useState({
     name: "",
     company: "",
@@ -28,16 +31,36 @@ export const ProductDetails = (match) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const slug = searchParams.get("slug");
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     let fetchdata = async () => {
       let res = await axios.get(`product/getproduct/${slug}`);
       setClicked(res.data.product);
-      console.log(clicked);
     };
     fetchdata();
   }, [slug]);
 
+  const handleBuyNow = (product) => {
+    let tempOrder = {
+      username: user.user.username,
+      address: user.user.address,
+      customerId: user.user.id,
+      customerEmail: user.user.email,
+      products: [
+        {
+          index: 0,
+          productName: product.name,
+          productPicture: product.photo,
+          quantity: 1,
+          price: product.price,
+        },
+      ],
+      totalPrice: product.price + 5,
+    };
+    dispatch(addOrder(tempOrder));
+    nav("/billing");
+  };
   return (
     <div className=" bg-white px-32 py-12 my-6 h-fit flex justify-center gap-12 rowcol">
       {!clicked ? (
@@ -90,7 +113,25 @@ export const ProductDetails = (match) => {
               </ul>
             </div>
             <div>
-              Delivery in <span>{clicked.deliverIn || "7"}</span> days
+              Get it Delivered by{" "}
+              <span className="font-medium">
+                {clicked.deliverIn
+                  ? new Date(
+                      Date.now() + clicked.deliverIn * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString(undefined, {
+                      weekday: "long",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  : new Date(
+                      Date.now() + 7 * 24 * 60 * 60 * 1000
+                    ).toLocaleDateString(undefined, {
+                      weekday: "long",
+                      month: "long",
+                      day: "numeric",
+                    })}
+              </span>
+              🤗
             </div>
             <div className="flex gap-2 justify-center my-2">
               <button
@@ -105,7 +146,10 @@ export const ProductDetails = (match) => {
                   Add to cart <FaCartPlus />{" "}
                 </Link>
               </button>
-              <button className="btn1 flex p-1 text-wh1 text-[1.25rem]  items-center justify-center btn1 p-1 hover:opacity-90 gap-3 flex-1 rounded-full">
+              <button
+                className=" flex p-1 text-wh1 text-[1.25rem]  items-center justify-center btn1 p-1 hover:opacity-90 gap-3 flex-1 rounded-full"
+                onClick={() => handleBuyNow(clicked)}
+              >
                 Buy Now <FaDollarSign />
               </button>
             </div>

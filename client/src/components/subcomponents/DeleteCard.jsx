@@ -26,7 +26,7 @@ function DeleteCard({ product }) {
   };
 
   const editProduct = (id) => {
-    navigateTo(`/editProduct/${id}`);
+    navigateTo(`/editProduct?slug=${id}`);
   };
 
   return (
@@ -74,8 +74,7 @@ function DeleteCard({ product }) {
           style={{ backgroundColor: "#8f00ff", color: "white" }}
           size="lg"
           onClick={() => {
-            console.log(product._id);
-            editProduct(product._id);
+            editProduct(product.slug);
           }}
           endDecorator={<EditIcon />}
         >

@@ -88,7 +88,6 @@ function Row2({ category }) {
           >
             {(close) => (
               <div className="p-2">
-                <CloseIcon className="absolute top-1 right-2" onClick={close} />
                 <div className="popup-content">
                   <div className="flex items-center gap-2">
                     <input
@@ -156,7 +155,7 @@ function Row2({ category }) {
                       close();
                     }}
                   >
-                    Filter now
+                    Sort now
                   </Button>
                   <Button
                     variant="outlined"
@@ -173,7 +172,7 @@ function Row2({ category }) {
         </div>
       </div>
 
-      <div className="border my-4 flex gap-4 overflow-x-auto overflow-clip w-full scroll-hide ">
+      <div className="my-4 flex gap-4 overflow-x-auto overflow-clip w-full pb-5 scroll-hide ">
         {productList.length > 0 ? (
           productList.map((product, index) => (
             <div key={index} className="flex gap-8 border-none cursor-grab">

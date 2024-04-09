@@ -30,9 +30,9 @@ router.post(
 //update product
 router.put(
   "/updateProduct/:pid",
-  requireSignIn,
-  isAdmin,
+
   validateCookie,
+  isAdmin,
   updateProductController
 );
 

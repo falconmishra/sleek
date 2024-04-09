@@ -16,15 +16,16 @@ export const requireSignIn = async (req, res, next) => {
 //admin access
 export const isAdmin = async (req, res, next) => {
   try {
-    console.log("user " + req.query.userId);
-    const user = await userModel.findById(req.query.userId);
-    if (user.role !== 1) {
+    const token = req.cookies.token;
+    const user = await userModel.findOne({ token });
+
+    if (user.role === 1) {
+      next();
+    } else {
       return res.status(401).send({
         success: false,
         message: "Unauthorized access",
       });
-    } else {
-      next();
     }
   } catch (error) {
     console.log(error);

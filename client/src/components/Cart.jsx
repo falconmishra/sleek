@@ -1,13 +1,43 @@
 import React, { useEffect } from "react";
 import "../css/cart.css";
 import "../css/btn.css";
-
+import { useNavigate } from "react-router-dom";
 import CartCard from "./CartCard";
 import { useDispatch, useSelector } from "react-redux";
+import { addOrder } from "../Slice/orderSlice";
 export const Cart = () => {
   const cart = useSelector((state) => state.cart.items);
+  const user = useSelector((state) => state.user);
   const total = useSelector((state) => state.cart.TotalPrice);
-  const shipping = cart.length === 0 ? 0 : 4.99;
+  const dispatch = useDispatch();
+  const navigateTo = useNavigate();
+  const shipping = cart.length === 0 ? 0 : 5.0;
+
+  let tempOrder = null;
+
+  if (user && user.user && user.user.id && cart) {
+    tempOrder = {
+      username: user.user.username,
+      address: user.user.address,
+      customerId: user.user.id,
+      customerEmail: user.user.email,
+      products: cart.map((data, index) => ({
+        index: index,
+        productName: data.name,
+        productPicture: data.photo,
+        quantity: data.quan,
+        price: data.price,
+      })),
+      totalPrice: total + shipping,
+    };
+  }
+
+  const handleCheckout = () => {
+    if (tempOrder) {
+      dispatch(addOrder(tempOrder));
+      navigateTo("/billing");
+    }
+  };
   return (
     <div class="h-screen bg-gray-100 pt-20 w-full">
       <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
@@ -39,7 +69,10 @@ export const Cart = () => {
               <p class="text-sm text-gray-700">including GST</p>
             </div>
           </div>
-          <button class="mt-6 w-full rounded-md bg-purp py-1.5 font-medium text-blue-50 hover:bg-purp2">
+          <button
+            onClick={() => handleCheckout()}
+            class="mt-6 w-full rounded-md bg-purp py-1.5 font-medium text-blue-50 hover:bg-purp2 transition-all transition-100"
+          >
             Check out
           </button>
         </div>

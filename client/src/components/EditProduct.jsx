@@ -1,92 +1,123 @@
 import React, { useEffect } from "react";
 import "../css/addproduct.css";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "../axiosbase";
+import CircularProgress from "@mui/joy/CircularProgress";
+
 import toast from "react-hot-toast";
+import { useSearchParams } from "react-router-dom";
 import Button from "@mui/joy/Button";
 
 const EditProduct = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    quantity: "",
-    discount: "",
-    MRP: "",
-    company: "",
-    rating: "",
-    category: "",
-    photo: null, // For file upload
-  });
+  const [searchParams] = useSearchParams();
+  const slug = searchParams.get("slug");
+
   const [categories, setCategories] = useState(["Category1"]);
   useEffect(() => {
     async function fetchCategories() {
       try {
         const response = await axios.get("category/getCategories");
         setCategories(response.data.category);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     }
-
     fetchCategories();
   }, []);
 
-  // Function to handle form field changes
+  const [product, setProduct] = useState(null);
+  useEffect(() => {
+    const getProduct = async (slug) => {
+      try {
+        const res = await axios.get(`/product/getProduct/${slug}`);
+        setProduct(res.data.product);
+        // Update formData after product data has been fetched
+        setFormData({
+          name: res.data.product.name || "",
+          description: res.data.product.description || "",
+          price: res.data.product.price || "",
+          quantity: res.data.product.quantity || "",
+          discount: res.data.product.discount || "",
+          MRP: res.data.product.MRP || "",
+          company: res.data.product.company || "",
+          rating: res.data.product.rating || "",
+          category: res.data.product.category || "",
+        });
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+    getProduct(slug);
+  }, [slug]);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    quantity: "",
+    MRP: "",
+    company: "",
+    rating: "",
+    category: "",
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Function to handle file upload
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, photo: e.target.files[0] });
-  };
-
-  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    console.log(formData);
-
+    e.preventDefault();
     try {
-      const formDataToSend = new FormData(); // Create FormData object
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("price", formData.price);
-      formDataToSend.append("discount", formData.discount);
-      formDataToSend.append("rating", formData.rating);
-      formDataToSend.append("MRP", formData.MRP);
-      formDataToSend.append("category", formData.category);
-      formDataToSend.append("quantity", formData.quantity);
-      formDataToSend.append("company", formData.company);
-      formDataToSend.append("photo", formData.photo); // Append file to FormData
-
-      // Make POST request to your backend API endpoint
-      const response = await axios.post(
-        "/product/createProduct",
-        formDataToSend,
+      const formDataToSend = { ...formData };
+      // formDataToSend.append("name", formData.name);
+      // formDataToSend.append("description", formData.description);
+      // formDataToSend.append("price", formData.price);
+      // formDataToSend.append("rating", formData.rating);
+      // formDataToSend.append("MRP", formData.MRP);
+      // formDataToSend.append("category", formData.category);
+      // formDataToSend.append("quantity", formData.quantity);
+      // formDataToSend.append("company", formData.company);
+      // console.log(formDataToSend);
+      console.log(formDataToSend);
+      const response = await axios.put(
+        `/product/updateProduct/${product._id}`,
         {
-          headers: { "Content-Type": "multipart/form-data" }, // Set content type header for file upload
+          name: formDataToSend.name,
+          description: formDataToSend.description,
+          price: formDataToSend.price,
+          MRP: formDataToSend.MRP,
+          category: formDataToSend.category,
+          quantity: formDataToSend.quantity,
+          company: formDataToSend.company,
+          rating: formDataToSend.rating,
+        },
+        {
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      console.log(response.data); // Log response from server
+      console.log(response.data);
       if (response.data.success) {
         toast.success(response.data.message);
       } else {
         toast(response.data.error.message);
       }
     } catch (error) {
-      console.error("Error:", error); // Log any errors
+      console.error("Error:", error);
       toast.error(error.response.data.message);
     }
   };
+
+  if (!product) {
+    return <CircularProgress />;
+  }
   return (
     <div className="flex bg-purp gap-4 bg-wh1 rounded-lg flex-col border h-full items-center justify-start p-8 ">
       <h2
         className="text-purp
-       text-xl font-semibold"
+        text-xl font-semibold"
       >
         Edit a Product
       </h2>
@@ -100,6 +131,7 @@ const EditProduct = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              placeholder={product.name}
               type="text"
             />
           </div>
@@ -111,6 +143,7 @@ const EditProduct = () => {
               name="company"
               value={formData.company}
               onChange={handleChange}
+              placeholder={product.company}
               type="text"
             />
           </div>
@@ -119,12 +152,12 @@ const EditProduct = () => {
               Description :
             </label>
             {/* <input
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              type="textarea"
-              id=""
-            /> */}
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                type="textarea"
+                id=""
+              /> */}
             <textarea
               id="myTextArea"
               name="description"
@@ -164,19 +197,19 @@ const EditProduct = () => {
               Category :
             </label>
             {/* <input
-              type="text"
-              value={formData.category}
-              onChange={handleChange}
-              name="category"
-              id=""
-            /> */}
+                type="text"
+                value={formData.category}
+                onChange={handleChange}
+                name="category"
+                id=""
+              /> */}
             <select
               name="category"
-              value={formData.category}
+              value={formData.categoryName}
               onChange={handleChange}
             >
               <option value="">Select category</option>
-              {categories ? (
+              {categories.length > 0 ? (
                 categories.map((category) => (
                   <option key={category.id} value={category.id}>
                     {category.name}
@@ -211,24 +244,8 @@ const EditProduct = () => {
               id=""
             />
           </div>
-          <div className="flex gap-1">
-            <label htmlFor="name" className="bg-none">
-              Picture :
-            </label>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              formTarget="jpeg"
-              name="photo"
-              id=""
-            />
-          </div>
-          <Button
-            variant="contained"
-            color="success"
-            className="bg-gray"
-            onClick={() => handleSubmit()}
-          >
+
+          <Button variant="contained" color="success" type="submit">
             Submit
           </Button>
         </div>

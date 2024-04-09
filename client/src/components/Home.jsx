@@ -25,7 +25,7 @@ export const Home = () => {
   getCategories();
 
   return (
-    <div className="w-full flex flex-col h-[100vh] overflow-x-hidden overflow-y-none">
+    <div className="w-full flex flex-col h-fit overflow-x-hidden ">
       {/* <Row
           name={"Akshat"}
           category={"Electronics"}

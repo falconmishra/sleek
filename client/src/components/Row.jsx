@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "./Card";
-import Popup from "reactjs-popup"; // Import Popup component
+import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "../css/hidder.css";
 import "../css/btn.css";
@@ -79,7 +79,7 @@ export const Row = ({ name, products }) => {
   }
 
   return (
-    <div className="w-screen color-w1 p-4 px-8 scroll-hide bg-wh1">
+    <div className="w-screen color-w1 p-4 px-8 scroll-hide bg-wh1 overflow-visible">
       <div className="w-full Row flex justify-between ">
         <span className="text-2xl">{name}</span>
         <div className="flex gap-4">
@@ -94,7 +94,6 @@ export const Row = ({ name, products }) => {
           >
             {(close) => (
               <div className="p-2">
-                <CloseIcon className="absolute top-1 right-2" onClick={close} />
                 <div className="popup-content">
                   <div className="flex items-center gap-2">
                     <input
@@ -162,7 +161,7 @@ export const Row = ({ name, products }) => {
                       close();
                     }}
                   >
-                    Filter now
+                    Sort now
                   </Button>
                   <Button
                     variant="outlined"
@@ -179,10 +178,10 @@ export const Row = ({ name, products }) => {
         </div>
       </div>
 
-      <div className="border my-4 flex gap-4 overflow-x-auto overflow-clip w-full scroll-hide ">
+      <div className=" my-4 flex gap-4 overflow-visible overflow-x-auto  w-full scroll-hide pb-5 ">
         {productList.map((product, index) => (
           <div key={index} className="flex gap-8 border-none cursor-grab">
-            <Card product={product} />
+            <Card className="" product={product} />
           </div>
         ))}
       </div>

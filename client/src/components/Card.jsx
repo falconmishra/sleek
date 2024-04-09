@@ -5,16 +5,40 @@ import "../css/btn.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "../Slice/cartSlice";
 import { setClickedProduct } from "../Slice/clickedProductSlice";
+import { addOrder } from "../Slice/orderSlice";
+import { useNavigate } from "react-router-dom";
 import "../css/card.css";
 
 export const Card = ({ product }) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  const navigateTo = useNavigate();
+  const user = useSelector((state) => state.user);
   const addToCart = () => {
     dispatch(addItemToCart(product));
   };
   const setClick = () => {
     dispatch(setClickedProduct(product));
+  };
+
+  const handleBuyNow = (product, e) => {
+    let tempOrder = {
+      username: user.user.username,
+      address: user.user.address,
+      customerId: user.user.id,
+      customerEmail: user.user.email,
+      products: [
+        {
+          index: 0,
+          productName: product.name,
+          productPicture: product.photo,
+          quantity: 1,
+          price: product.price,
+        },
+      ],
+      totalPrice: product.price + 5,
+    };
+    dispatch(addOrder(tempOrder));
+    navigateTo("/billing");
   };
 
   return (
@@ -65,11 +89,11 @@ export const Card = ({ product }) => {
             </Link>
           </button>
 
-          <button className="bg-black flex-1  text-wh1  hover:opacity-90  rounded-full">
-            <Link
-              to="/billing"
-              className="p-3 w-full h-full flex items-center justify-center"
-            >
+          <button
+            className="bg-black flex-1  text-wh1  hover:opacity-90  rounded-full"
+            onClick={() => handleBuyNow(product)}
+          >
+            <Link className="p-3 w-full h-full flex items-center justify-center">
               Buy Now
             </Link>
           </button>

@@ -15,6 +15,8 @@ import { Admin } from "./components/Admin";
 import { Contact } from "./components/contact";
 import RemoveProduct from "./components/removeProduct";
 import { useSelector } from "react-redux";
+import Orders from "./components/Orders";
+import ManageOrders from "./components/ManageOrders";
 
 import { Toaster } from "react-hot-toast";
 import SetCategories from "./components/SetCategories";
@@ -47,7 +49,18 @@ function App() {
           }
         } catch (error) {
           console.error("Error while fetching user:", error);
+          // Clear user data on error or when token is invalid
+          dispatch(setUser(null));
+          dispatch(setAdmin(false));
+          dispatch(setAuth(null));
+          // Remove token cookie
+          Cookies.remove("token");
         }
+      } else {
+        // Clear user data if token is not present
+        dispatch(setUser(null));
+        dispatch(setAdmin(false));
+        dispatch(setAuth(null));
       }
     };
 
@@ -57,11 +70,12 @@ function App() {
     <BrowserRouter>
       <div className="flex flex-col w-full min-h-fit">
         <Navbar />
-        <div className="container bg-wh2 min-h-fit h-screen min-w-full flex justify-center items-center">
+        <div className="container bg-wh2 h-fit min-h-screen min-w-full flex justify-center items-center ">
           <Routes>
             {user.isAdmin ? (
               <>
                 <Route path="/addproduct" element={<AddProduct />} />
+                <Route path="/manageOrders" element={<ManageOrders />} />
                 <Route path="/removeProduct" element={<RemoveProduct />} />
                 <Route path="/setCategories" element={<SetCategories />} />
                 <Route path="/editProduct" element={<EditProduct />} />
@@ -77,6 +91,7 @@ function App() {
                 <Route path="/productdetails" element={<ProductDetails />} />
                 <Route path="/billing" element={<Billing />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/orders" element={<Orders />} />
                 <Route path="*" element={<PageUnavailable />} />
               </>
             ) : (
@@ -88,6 +103,7 @@ function App() {
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/pagenotfound" element={<PageUnavailable />} />
+                <Route path="/orders" element={<Orders />} />
                 <Route path="/searchresult" element={<SearchResult />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/productdetails" element={<ProductDetails />} />

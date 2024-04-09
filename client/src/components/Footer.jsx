@@ -9,7 +9,7 @@ export const Footer = () => {
   return (
     <div className="bg-gray-800  text-wh1 min-w-screen">
       <div className=" bg-gray-900 flex items-center justify-center">
-        <p>&#169; Ashutosh and Akshat, 2023</p>
+        <p>&#169; Akshat and Ashutosh, 2023</p>
       </div>
       <div className="flex h-fit flex-wrap items-start">
         <div className="flex flex-1 h-64 justify-center items-center logo-container">
