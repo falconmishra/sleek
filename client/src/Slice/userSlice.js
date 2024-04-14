@@ -8,6 +8,8 @@ const initialState = {
   loading: false,
   error: null,
   isAdmin: false,
+  contact: null,
+  pincode: null,
 };
 
 const userSlice = createSlice({
@@ -21,6 +23,14 @@ const userSlice = createSlice({
       state.error = null;
       state.isAdmin = false;
     },
+    setContact: (state, action) => {
+      state.contact = action.payload;
+    },
+
+    setPincode: (state, action) => {
+      state.pincode = action.payload;
+    },
+
     clearUser: (state) => {
       state.user = null;
       state.isAuthenticated = false;
@@ -34,13 +44,20 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    setAdmin: (state, action) => {
+    setAdmin: (state) => {
       state.isAdmin = true;
     },
   },
 });
 
-export const { setUser, clearUser, setAuth, setError, setAdmin } =
-  userSlice.actions;
+export const {
+  setUser,
+  clearUser,
+  setAuth,
+  setError,
+  setAdmin,
+  setContact,
+  setPincode,
+} = userSlice.actions;
 
 export default userSlice.reducer;

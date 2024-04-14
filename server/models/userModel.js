@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    contact: {
+      type: String,
+      trim: true,
+    },
     secretQuestion: {
       type: String,
 
@@ -29,13 +33,17 @@ const userSchema = new mongoose.Schema(
       unique: true,
       default: "",
     },
+    pincode: {
+      type: String,
+      trim: true,
+    },
     address: {
       type: String,
 
       trim: true,
     },
-    resetExpire: {
-      type: Date,
+    resetToken: {
+      type: String,
       trim: true,
     },
     role: {

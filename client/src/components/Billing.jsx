@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 export const Billing = () => {
   const dispatch = useDispatch();
   const order = useSelector((state) => state.order);
+  const user = useSelector((state) => state.user);
 
   const handleOrder = async () => {
     const res = await toast.promise(
@@ -20,6 +21,9 @@ export const Billing = () => {
     );
   };
 
+  if (!user.user) {
+    return <div>Bhai login vogin krna ki nai</div>;
+  }
   if (!order.products) {
     return <div>Loading</div>;
   }
@@ -38,6 +42,10 @@ export const Billing = () => {
           <div className="flex justify-between mb-4">
             <p className="text-gray-700">Customer Email :</p>
             <p>{order.customerEmail}</p>
+          </div>
+          <div className="flex justify-between mb-4">
+            <p className="text-gray-700">Customer Phone No. :</p>
+            <p>{order.contac}</p>
           </div>
           <div className="flex justify-between mb-4">
             <p className="text-gray-700">Customer Address :</p>
@@ -93,12 +101,12 @@ export const Billing = () => {
                     <div>
                       <p className="text-gray-800">{product.productName}</p>
                       <p className="text-gray-600">
-                        {product.price} $ x {product.quantity}
+                        ₹ {product.price} x {product.quantity}
                       </p>
                     </div>
                   </div>
                   <p className="text-gray-800">
-                    {product.price * product.quantity} $
+                    ₹ {product.price * product.quantity}
                   </p>
                 </div>
               ))}
@@ -108,16 +116,16 @@ export const Billing = () => {
           <div className="my-8">
             <div className="flex justify-between mb-2">
               <p className="text-gray-700">Subtotal:</p>
-              <p>${order.totalPrice - 5}</p>
+              <p>₹ {order.totalPrice - 50}</p>
             </div>
             <div className="flex justify-between mb-2">
               <p className="text-gray-700">Shipping:</p>
-              <p>$ 5</p>
+              <p>₹ 50</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total:</p>
-              <p className="text-lg font-bold">${order.totalPrice}</p>
+              <p className="text-lg font-bold">₹ {order.totalPrice}</p>
             </div>
           </div>
           <div className="w-full flex items-center justify-center">

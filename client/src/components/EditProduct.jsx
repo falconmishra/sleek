@@ -43,6 +43,7 @@ const EditProduct = () => {
           company: res.data.product.company || "",
           rating: res.data.product.rating || "",
           category: res.data.product.category || "",
+          categoryName: res.data.product.categoryName || "",
         });
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -60,11 +61,23 @@ const EditProduct = () => {
     company: "",
     rating: "",
     category: "",
+    categoryName: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "category") {
+      const selectedCategory = categories.find(
+        (category) => category.name === value
+      );
+      setFormData({
+        ...formData,
+        category: selectedCategory._id,
+        categoryName: value,
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -92,9 +105,7 @@ const EditProduct = () => {
           quantity: formDataToSend.quantity,
           company: formDataToSend.company,
           rating: formDataToSend.rating,
-        },
-        {
-          headers: { "Content-Type": "multipart/form-data" },
+          categoryName: formDataToSend.categoryName,
         }
       );
 
@@ -196,13 +207,7 @@ const EditProduct = () => {
             <label htmlFor="name" className="bg-none">
               Category :
             </label>
-            {/* <input
-                type="text"
-                value={formData.category}
-                onChange={handleChange}
-                name="category"
-                id=""
-              /> */}
+
             <select
               name="category"
               value={formData.categoryName}

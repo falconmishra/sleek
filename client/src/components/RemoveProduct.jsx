@@ -23,7 +23,7 @@ function RemoveProduct() {
     setProducts(products.filter((product) => product._id !== deletedProductId));
   };
   return (
-    <div className="flex gap-4 flex-wrap">
+    <div className="flex gap-4 h-fit justify-center p-10 flex-wrap">
       {products.map((product) => (
         <DeleteCard
           key={product._id}

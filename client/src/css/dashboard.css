@@ -17,14 +17,12 @@
 }
 .div{
     display: flex;
-    flex-direction: column;
     margin-top: 10vh;
     gap: 10vh;
 }
 .box{
     width: 100%;
-    margin-left: 5vh;
-    
+    margin-left: 5vh; 
     display: flex;
 }
 .firstbox{
@@ -56,28 +54,4 @@
 
 .inn p{
     width: 30%;
-}
-
-@media (max-width:1200px){
-
-    .count{
-        
-        height: 180vh;
-        
-    }
-    .box{
-        margin-left: 0;
-        flex-direction: column;
-        gap: 4vh;
-        align-items: center;
-        width: 100%;
-    }
-    .div{
-        gap: 4vh;
-    }
-    .firstbox{
-        width: 80%;
-        
-    }
-
 }

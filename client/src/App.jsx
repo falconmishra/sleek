@@ -27,8 +27,16 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import axios from "./axiosbase";
 
-import { setAuth, setUser, setAdmin } from "./Slice/userSlice";
+import {
+  setAuth,
+  setUser,
+  setAdmin,
+  setContact,
+  setPincode,
+} from "./Slice/userSlice";
 import { useEffect } from "react";
+import ResetPassword from "./components/ResetPassword";
+import GetUsers from "./components/GetUsers";
 // Get the value of the 'token' cookie
 
 function App() {
@@ -41,6 +49,8 @@ function App() {
         try {
           let res = await axios.get(`/auth/getUserByToken/${token}`);
           dispatch(setUser(res.data.user));
+          dispatch(setContact(res.data.user.contact));
+          dispatch(setPincode(res.data.user.pincode));
           if (res.data.isAdmin == true) {
             dispatch(setAdmin(true));
           }
@@ -82,6 +92,9 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgetPassword" element={<ForgetPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/getUsers" element={<GetUsers />} />
+
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -99,6 +112,7 @@ function App() {
                 <Route index element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgetPassword" element={<ForgetPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/dashboard" element={<Dashboard />} />

@@ -33,11 +33,9 @@ export const Navbar = () => {
   const cart = useSelector((state) => state.cart);
   return (
     <div
-      className={
-        navOpen
-          ? `w-full max-w-screen h-fit bg-wh1  min-w-screen flex px-4 nav justify-between items-center sticky top-0 overflow-hidden`
-          : ` bg-wh1 max-w-screen w-full min-w-screen flex px-4 nav justify-between items-center sticky top-0 overflow-hidden`
-      }
+      className={` bg-wh1 transition-all duration-700 max-w-screen w-full min-w-screen flex px-4 nav justify-between items-center sticky top-0 overflow-hidden z-20 ${
+        navOpen ? "h-fit" : ""
+      }`}
     >
       <div className="logo-container w-full flex items-center justify-center flex-1">
         <Link to="/">
@@ -59,7 +57,7 @@ export const Navbar = () => {
             name=""
             id=""
           />
-          <div className="bg-purp hover:bg-purple-500 rounded-tr-lg rounded-br-lg p-1 ">
+          <div className="bg-purp  gdbg  rounded-tr-lg rounded-br-lg p-1 ">
             <Link to={`/searchresult?q=${query}`}>
               <CiSearch style={{ color: "white", fontSize: "30px" }} />
             </Link>

@@ -65,73 +65,78 @@ const Orders = () => {
     return <CircularProgress />;
   }
   return (
-    <div className="flex flex-col gap-5 items-center">
-      <h2>Your Orders</h2>
-      <div className="order-conatiner h-fit p-8 bg-wh1">
-        <div className="order flex flex-col gap-2 w-[80vh]">
-          {/* Map each order */}
+    <div className="flex flex-col items-center gap-5 py-1 xl:py-6 w-full">
+      <h2 className="mt-2">Your Orders</h2>
+      <div className="order-conatiner p-4 md:p-8 bg-wh1 w-5/6 xl:w-1/2">
+        <div className="order flex flex-col gap-4">
           {!orders ? (
             <CircularProgress />
           ) : (
             orders.map((order, index) => (
-              <div className="flex flex-col gap-2 bg-white p-4" key={order._id}>
-                <div className="flex w-full justify-between">
+              <div
+                className="order-details flex flex-col gap-4 border rounded-md bg-white border-zinc-200 p-4 md:p-6"
+                key={order._id}
+              >
+                <div className="flex flex-row justify-between">
                   <h3>Order #{index + 1}</h3>
-                  <h5 className="text-sm text-g1">
-                    Placed on : {formatDateTime(order.createdAt)}
+                  <h5 className="text-sm text-right text-gray-500">
+                    Placed on: {formatDateTime(order.createdAt)}
                   </h5>
                 </div>
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Product Name
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Price
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Quantity
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {order.products.map((product) => (
-                      <tr key={product._id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {product.productName}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {product.price}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {product.quantity}
-                          </div>
-                        </td>
+                <div className="table-container overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="px-2 py-2 md:px-6 md:py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Product Name
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-2 py-2 md:px-6 md:py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Price
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-2 py-2 md:px-6 md:py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Quantity
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-
-                <div className="w-full flex justify-between ">
-                  <p className="text-sm py-2">
-                    Order Value : ${order.totalPrice}
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {order.products.map((product) => (
+                        <tr key={product._id}>
+                          <td className="px-2 py-2 md:px-6 md:py-4 whitespace-nowrap">
+                            <div className="text-xs md:text-sm text-gray-900  text-center">
+                              {product.productName}
+                            </div>
+                          </td>
+                          <td className="px-2 py-2 md:px-6 md:py-4 whitespace-nowrap">
+                            <div className="text-xs md:text-sm text-gray-900 text-center">
+                              ₹{product.price}
+                            </div>
+                          </td>
+                          <td className="px-2 py-2 md:px-6 md:py-4 whitespace-nowrap">
+                            <div className="text-xs md:text-sm text-gray-900  text-center">
+                              {product.quantity}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="flex flex-row justify-between">
+                  <p className="text-xs md:text-sm py-1 md:py-2">
+                    Order Value: ₹{order.totalPrice}
                   </p>
-                  <p className="text-sm py-2">Status : {order.status}</p>
+                  <p className="text-xs md:text-sm py-1 md:py-2">
+                    Status: {order.status}
+                  </p>
                 </div>
                 <Button
                   className="cursor-pointer"

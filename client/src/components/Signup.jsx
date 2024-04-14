@@ -10,7 +10,9 @@ export const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
 
   const navigateTo = useNavigate();
 
@@ -18,9 +20,11 @@ export const Signup = () => {
     axios
       .post("http://localhost:8080/api/v1/auth/register", {
         username,
-        email,
+        email: email.toLowerCase(),
         password,
         address,
+        contact,
+        pincode,
       })
 
       .then((res) => {
@@ -37,8 +41,8 @@ export const Signup = () => {
       });
   };
   return (
-    <div className="login-h">
-      <div className="contain">
+    <div className="login-h h-fit">
+      <div className="contain h-fit p-2">
         <div className="conatinerone">
           <img src={login} alt="" />
         </div>
@@ -52,6 +56,7 @@ export const Signup = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Name"
+                required
               />
             </div>
             <div className="comp">
@@ -60,6 +65,7 @@ export const Signup = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
+                required
               />
             </div>
 
@@ -69,16 +75,36 @@ export const Signup = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
+                required
+              />
+            </div>
+            <div className="comp">
+              <input
+                type="tel"
+                value={contact}
+                min={10}
+                onChange={(e) => setContact(e.target.value)}
+                placeholder="Contact"
+                required
               />
             </div>
             <div className="comp border ">
-              <textarea
+              <input
                 id="myTextArea"
                 name="address"
                 value={address}
+                required
+                placeholder="Address"
                 onChange={(e) => setAddress(e.target.value)}
-                rows={5} // Adjust the number of rows as needed
-                cols={40} // Adjust the number of columns as needed
+              />
+            </div>
+            <div className="comp">
+              <input
+                type="number"
+                value={pincode}
+                onChange={(e) => setPincode(e.target.value)}
+                placeholder="Pincode"
+                required
               />
             </div>
             <button className="btn2 btnlog" onClick={handleSubmit}>

@@ -3,7 +3,7 @@ import slugify from "slugify";
 import fs from "fs";
 import { v2 as cloudinary } from "cloudinary";
 import categoryModel from "../models/categoryModel.js";
-import { query } from "express";
+import { json, query } from "express";
 
 cloudinary.config({
   cloud_name: "duogkpk5c",
@@ -144,6 +144,27 @@ export const getSingleProductController = async (req, res) => {
   }
 };
 
+export const getRandomProductsController = async (req, res) => {
+  try {
+    const { count } = req.params;
+    const products = await productModel.aggregate([
+      { $sample: { size: parseInt(count) } },
+    ]);
+    res.status(200).send({
+      success: true,
+      message: `${count} random products fetched successfully`,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while getting random products",
+      error,
+    });
+  }
+};
+
 //get-photo
 export const productPhotoController = async (req, res) => {
   try {
@@ -182,8 +203,10 @@ export const deleteProductController = async (req, res) => {
 
 //update product controller//upate producta
 export const updateProductController = async (req, res) => {
+  console.log(req.body);
   try {
-    const { name, description, price, category, quantity } = req.fields;
+    const { name, description, price, category, categoryName, quantity } =
+      req.body;
 
     //alidation
     switch (true) {
@@ -198,10 +221,10 @@ export const updateProductController = async (req, res) => {
       case !quantity:
         return res.status(500).send({ error: "Quantity is Required" });
     }
-    console.log(req.fields);
+
     let products = await productModel.findByIdAndUpdate(
       req.params.pid,
-      { ...req.fields, slug: slugify(name) },
+      { ...req.body, slug: slugify(name) },
       { new: true }
     );
 
@@ -212,12 +235,13 @@ export const updateProductController = async (req, res) => {
       products,
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     res.status(500).send({
       success: false,
 
       error,
-      message: "Error in Updte product",
+      message: "Error in Update product",
+      request: req,
     });
   }
 };

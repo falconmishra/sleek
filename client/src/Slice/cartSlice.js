@@ -35,7 +35,7 @@ const cartSlice = createSlice({
     increaseItemQuan(state, action) {
       const newItem = action.payload;
       const foundItem = state.items.find((item) => item._id === newItem._id);
-      if (foundItem) {
+      if (foundItem && foundItem.quan < 10) {
         foundItem.quan++;
         state.TotalPrice += foundItem.price;
       }

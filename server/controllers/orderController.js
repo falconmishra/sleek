@@ -1,9 +1,65 @@
 import userModel from "../models/userModel.js";
 import ordersModel from "../models/ordersModel.js";
 
+import nodemailer from "nodemailer";
+
+const sendOrderdMail = async (email, total, products) => {
+  try {
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      port: 465,
+      auth: {
+        user: process.env.email,
+        pass: process.env.password,
+      },
+    });
+
+    const productsListHTML = products
+      .map(
+        (product) => `
+      <li>
+        <strong>${product.productName}</strong>: ${product.quantity} x $${
+          product.price
+        } = $${product.quantity * product.price}
+      </li>
+    `
+      )
+      .join("");
+
+    const mailOptions = {
+      from: process.env.email,
+      to: email,
+      subject: "Order Confirmation",
+      html: `
+      <h1>Order Confirmation</h1>
+      <p>Hello there!</p>
+      <p>Your order has been placed successfully. Below are the details of your order:</p>
+      <ul>
+        ${productsListHTML}
+      </ul>
+      <p>Total Price : $${total}</p>
+      <p>If you have any questions or concerns regarding your order, please feel free to contact us.</p>
+      <p>Thank you for choosing us!</p>
+      <p>Best regards,<br>Your Sleek Team</p>
+    `,
+    };
+
+    transport.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Mail has been sent : ", info.response);
+      }
+    });
+  } catch (error) {
+    res
+      .status(400)
+      .send({ success: false, message: "Email  could not be sent" });
+  }
+};
 export const createOrderController = async (req, res) => {
   const { uid } = req.params;
-  const { products, totalPrice } = req.body;
+  const { products, totalPrice, address } = req.body;
 
   try {
     const user = await userModel.findById(uid);
@@ -18,7 +74,9 @@ export const createOrderController = async (req, res) => {
       customerEmail: user.email,
       products: products,
       totalPrice: totalPrice,
+      address: address,
     });
+    sendOrderdMail(user.email, totalPrice, products);
     await order.save();
 
     return res.status(201).send({

@@ -8,6 +8,7 @@ export default {
         wh2: "#F0ECEC",
         p: "#8F00FF",
         purp: "#8F00FF",
+        purp3: "#f1dfff",
         purp2: "#7302cc",
         b1: "#181818",
         g1: "#a0a0a0",

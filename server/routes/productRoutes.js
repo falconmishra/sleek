@@ -13,6 +13,7 @@ import {
   productPhotoController,
   updateProductController,
   searchProduct,
+  getRandomProductsController,
 } from "../controllers/productController.js";
 import fileUploadMiddleware from "../middlewares/productMiddlewares.js";
 import multer from "multer";
@@ -38,6 +39,8 @@ router.put(
 
 //get products
 router.get("/getProducts", getProductController);
+
+router.get("/getRandomProducts/:count", getRandomProductsController);
 
 //single product
 router.get("/getProduct/:slug", getSingleProductController);

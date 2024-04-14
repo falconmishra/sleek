@@ -7,34 +7,46 @@ import "../css/btn.css";
 import LinearProgress from "@mui/joy/LinearProgress";
 import { FaSortAlphaDown, FaFilter } from "react-icons/fa";
 import axios from "../axiosbase";
-import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import toast from "react-hot-toast";
+import Button from "@mui/material/Button";
+import "../css/sort.css";
 
-let result;
-
-const getProducts = async () => {
-  let res = await axios.get("/product/getProducts");
-  result = await res.data.products;
-  return result;
-};
-
-export const Row = ({ name, products }) => {
-  const [loading, setLoading] = useState(true);
+function Row3({ limit }) {
   const [productList, setProductList] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [sortBy, setSortBy] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const fetchedProducts = await getProducts();
-      if (fetchProducts) {
+      try {
+        const fetchedProduct = await axios.get(
+          `/product/getRandomProducts/${limit || 5}`
+        );
+        const fetchedProducts2 = fetchedProduct.data.products;
+        setProductList(fetchedProducts2);
+
+        setLoading(false);
+      } catch (error) {
+        setError(error);
         setLoading(false);
       }
-      setProductList(fetchedProducts);
     };
 
     fetchProducts();
-  }, [products]);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="w-full  flex justify-center items-center my-2">
+        <div className="w-1/2 flex items-center gap-2">
+          <LinearProgress className=" thumb" />
+        </div>
+      </div>
+    );
+  }
 
   const handleSort = (sortBy) => {
     let sortedProducts = [...productList];
@@ -49,7 +61,9 @@ export const Row = ({ name, products }) => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         break;
-
+      case "priceLowToHigh":
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
       case "priceHighToLow":
         sortedProducts.sort((a, b) => b.price - a.price);
         break;
@@ -67,33 +81,16 @@ export const Row = ({ name, products }) => {
         break;
     }
     setProductList(sortedProducts);
-    console.log(sortedProducts);
   };
-
-  if (loading) {
-    return (
-      <div className="w-full flex justify-center items-center my-2">
-        <div className="w-1/2">
-          <LinearProgress className=" thumb" />
-        </div>
-      </div>
-    );
-  } else if (!productList) {
-    return (
-      <div>
-        <p>No products to show :( </p>
-      </div>
-    );
-  }
 
   return (
     <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide bg-wh1 overflow-visible">
       <div className="w-full Row flex justify-between ">
-        <span className="text-2xl">{name}</span>
+        <span className="text-2xl">Recommended for you</span>
         <div className="flex gap-4">
           <Popup
             trigger={
-              <span className="cursor-pointer min-w-full rounded-2xl px-3 hover:bg-[#8f00ff] transition-all duration-150 hover:text-white flex justify-center items-center gap-1">
+              <span className="cursor-pointer rounded-2xl px-3 hover:bg-[#8f00ff] transition-all duration-150 hover:text-white flex justify-center items-center gap-1">
                 <span className="hidder">Sort</span> <FaSortAlphaDown />
               </span>
             }
@@ -101,7 +98,7 @@ export const Row = ({ name, products }) => {
             modal
           >
             {(close) => (
-              <div className="w-full flex items-center  flex-col p-2">
+              <div className="w-full flex items-center min-w-fit  flex-col p-2">
                 <div className="   bg-white w-fit p-1 flex flex-col justify-center items-start   gap-1 min-w-fit">
                   <div className="flex items-center whitespace-nowrap  gap-2">
                     <input
@@ -125,7 +122,7 @@ export const Row = ({ name, products }) => {
                     />
                     Newest first
                   </div>
-                  <div className="flex items-center  gap-2">
+                  <div className="flex items-center whitespace-nowrap gap-2">
                     <input
                       type="radio"
                       name="Sort"
@@ -158,7 +155,7 @@ export const Row = ({ name, products }) => {
                     />
                     <span className="font-bold">Rating</span>: Low to High
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center whitespace-nowrap gap-2">
                     <input
                       type="radio"
                       name="Sort"
@@ -183,12 +180,13 @@ export const Row = ({ name, products }) => {
                 </div>
                 <div className="w-full flex gap-1 m-2 justify-center items-center">
                   <Button
-                    variant="contained"
+                    className=""
                     endIcon={<FaSortAlphaDown />}
+                    variant="contained"
                     style={{ backgroundColor: "#8f00ff", color: "white" }}
                     onClick={() => {
                       handleSort(sortBy);
-                      toast.success("Products Sorted");
+                      toast.success("Product Sorted");
                       close();
                     }}
                   >
@@ -209,13 +207,21 @@ export const Row = ({ name, products }) => {
         </div>
       </div>
 
-      <div className=" xl:my-4 my-1 flex gap-4 overflow-visible overflow-x-auto  w-full scroll-hide xl:pb-5 pb-1 ">
-        {productList.map((product, index) => (
-          <div key={index} className="flex gap-8 border-none cursor-grab">
-            <Card className="" product={product} />
-          </div>
-        ))}
+      <div className="my-4 flex gap-4 overflow-x-auto overflow-clip w-full pb-5 scroll-hide ">
+        {productList.length > 0 ? (
+          productList.map((product, index) => (
+            <div key={index} className="flex gap-8 border-none cursor-grab">
+              <Card product={product} />
+            </div>
+          ))
+        ) : (
+          <>
+            <h4>No Products to show :(</h4>
+          </>
+        )}
       </div>
     </div>
   );
-};
+}
+
+export default Row3;

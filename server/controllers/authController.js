@@ -3,12 +3,11 @@ import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import randonString from "randomstring";
-import productModel from "../models/productModel.js";
 
 //register function
 export const routerController = async (req, res) => {
   try {
-    const { username, email, password, address } = req.body;
+    const { username, email, password, address, contact, pincode } = req.body;
 
     //validations
     if (!username) {
@@ -29,6 +28,14 @@ export const routerController = async (req, res) => {
       res.send({ error: "password is required" });
       return;
     }
+    if (!contact) {
+      res.send({ error: "password is required" });
+      return;
+    }
+    if (!pincode) {
+      res.send({ error: "password is required" });
+      return;
+    }
 
     //checking for existing user
 
@@ -46,6 +53,8 @@ export const routerController = async (req, res) => {
       email,
       address,
       password: hashPassword,
+      contact,
+      pincode,
     }).save();
 
     res.status(201).send({
@@ -114,11 +123,12 @@ export const loginController = async (req, res) => {
         username: user.username,
         id: user._id,
         address: user.address,
+        pincode: user.pincode,
+        contact: user.contact,
       },
       token,
       isAdmin: user.role ? true : false,
     });
-    // cookieParser.JSONCookie(token);
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -165,24 +175,27 @@ export const testController = async (req, res) => {
 const sendResetPasswordMail = async (email, token) => {
   try {
     const transport = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
+      service: "gmail",
+      port: 465,
       auth: {
         user: process.env.email,
         pass: process.env.password,
       },
     });
 
-    let resetLink =
-      "http://localhost:8080/api/v1/user/reset-password?token=" + token;
+    let resetLink = "http://localhost:5173/reset-password?token=" + token;
 
     const mailOptions = {
       from: process.env.email,
       to: email,
       subject: "Reset password on Sleek",
-      text: `Hi there! Your reset password link is as follows
-      ${resetLink}`,
+      text: `Hi there! You initiated a reset password request. Click the following link `,
+      html: ` <h1>Password Reset</h1>
+      <p>Hello there!</p>
+      <p>You initiated a password reset request. To reset your password, please click the following link:</p>
+      <a href="${resetLink}">Reset Password</a>
+      <p>If you did not request a password reset, you can ignore this message.</p>
+      <p>Best regards,<br>Your Sleek Team</p>`,
     };
 
     transport.sendMail(mailOptions, (err, info) => {
@@ -212,7 +225,7 @@ export const forgotPasswordController = async (req, res) => {
     const Token = randonString.generate();
     const data = await userModel.updateOne(
       { email },
-      { $set: { token: Token } }
+      { $set: { resetToken: Token } }
     );
     sendResetPasswordMail(email, Token);
     res.status(200).send({
@@ -227,24 +240,47 @@ export const forgotPasswordController = async (req, res) => {
 export const resetPasswordController = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
-  // console.log(req.body);
+
   try {
     const user = await userModel.findOne({
-      token: token,
+      resetToken: token,
     });
     if (!user) {
       return res.status(400).json({ message: "Invalid or expired token" });
-    } else {
-      //hash the password and update it in database
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
-      user.token = null;
-      user.resetExpire = null;
+    }
+    if (token == user.resetToken) {
+      user.resetToken = null;
+      user.password = await Hashpassword(password);
       await user.save();
-      res.json({ msg: "Password has been changed successfully!" });
+      return res.status(200).send({
+        success: true,
+        message: "Password Reset successfully!",
+      });
     }
   } catch (err) {
     console.log(err);
     res.status(500).send("Error on server");
+  }
+};
+export const getAllUsersController = async (req, res) => {
+  try {
+    const users = await userModel.find();
+    if (!users || users.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No users found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "All users fetched",
+      users: users,
+    });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };

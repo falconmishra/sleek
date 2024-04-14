@@ -32,7 +32,7 @@ export const SearchResult = () => {
   }, [q]);
 
   return (
-    <div className="flex flex-wrap flex-col w-full gap-10 items-center  ">
+    <div className="flex flex-wrap flex-col w-full gap-10 items-center h-full   ">
       <h2 className="text-2xl font-semibold">
         Found {searchProducts.total_count || 0}{" "}
         {searchProducts.total_count == 1 ? "result" : "results"} for "{q}"

@@ -3,10 +3,21 @@ import "../css/login.css";
 import "../css/btn.css";
 import { useNavigate } from "react-router-dom";
 import login from "../images/login.jpg";
+import axios from "../axiosbase";
+import toast from "react-hot-toast";
+
 function ForgetPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    let res = axios.post(`/auth/forgot-password`, {
+      email,
+    });
+    toast.promise(res, {
+      loading: "Sending Mail",
+      success: "Mail sent successfully, Check your inbox",
+    });
+  };
   return (
     <div className="login-h">
       <div className="contain">

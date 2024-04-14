@@ -13,7 +13,7 @@ function CartCard({ product }) {
     dispatch(removeItemFromCart(product));
   };
   return (
-    <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+    <div class="justify-between mb-6 rounded-lg h-fit bg-white p-6 shadow-md sm:flex sm:justify-start">
       <img
         src={product.photo}
         alt={product.name}
@@ -40,6 +40,7 @@ function CartCard({ product }) {
               type="number"
               value={product.quan}
               min="1"
+              max="10"
             />
             <span
               onClick={() => {
@@ -52,7 +53,7 @@ function CartCard({ product }) {
             </span>
           </div>
           <div class="flex items-center space-x-4">
-            <p class="text-sm">${product.price}</p>
+            <p class="text-sm">₹{product.price}</p>
             <svg
               onClick={removefromcCart}
               xmlns="http://www.w3.org/2000/svg"

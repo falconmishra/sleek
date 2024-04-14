@@ -50,7 +50,7 @@ function DeleteCard({ product }) {
           </Link>
 
           <Typography level="title-lg" sx={{ mt: 1, fontWeight: "xl" }}>
-            ${product.price}
+            ₹{product.price}
           </Typography>
           <Typography level="body-sm">
             (Only <b>{product.quantity}</b> left in stock!)

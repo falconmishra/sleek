@@ -5,6 +5,7 @@ import {
   testController,
   forgotPasswordController,
   resetPasswordController,
+  getAllUsersController,
 } from "../controllers/authController.js";
 import {
   isAdmin,
@@ -29,5 +30,6 @@ router.get("/admin-test", requireSignIn, isAdmin, testController);
 //forgotPassword
 router.post("/forgot-password", forgotPasswordController);
 router.post("/reset-password/:token", resetPasswordController);
+router.get("/getAllUsers", isAdmin, getAllUsersController);
 
 export default router;

@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import toast from "react-hot-toast";
 import Button from "@mui/material/Button";
 
-function Row2({ category }) {
+function Row2({ title, category }) {
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ function Row2({ category }) {
         );
         const fetchedProducts2 = fetchedProduct.data.products;
         setProductList(fetchedProducts2);
-        console.log(productList);
+
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -37,19 +37,19 @@ function Row2({ category }) {
     fetchProducts();
   }, [category]); // Include category in the dependency array
 
-  if (loading) {
-    return (
-      <div className="w-full flex items-center my-2">
-        <div className="w-1/2">
-          <LinearProgress sx={{ bgcolor: "#fdfdfd", color: "#9a59f0" }} />
-        </div>
-      </div>
-    );
-  }
-
   const handleSort = (sortBy) => {
     let sortedProducts = [...productList];
     switch (sortBy) {
+      case "oldestFirst":
+        sortedProducts.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+        break;
+      case "newestFirst":
+        sortedProducts.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        break;
       case "priceLowToHigh":
         sortedProducts.sort((a, b) => a.price - b.price);
         break;
@@ -71,11 +71,22 @@ function Row2({ category }) {
     }
     setProductList(sortedProducts);
   };
+  if (loading) {
+    return (
+      <div className="w-full flex justify-center items-center my-2">
+        <div className="w-1/2">
+          <LinearProgress className=" thumb" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-screen color-w1 p-4 px-8 scroll-hide bg-wh1">
+    <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide bg-wh1 overflow-visible">
       <div className="w-full Row flex justify-between ">
-        <span className="text-2xl">All new in {category}</span>
+        <span className="text-2xl">
+          {title ? title : "All new in " + { category }}
+        </span>
         <div className="flex gap-4">
           <Popup
             trigger={
@@ -87,9 +98,31 @@ function Row2({ category }) {
             modal
           >
             {(close) => (
-              <div className="p-2">
-                <div className="popup-content">
-                  <div className="flex items-center gap-2">
+              <div className="w-full flex items-center  flex-col p-2">
+                <div className="   bg-white w-fit p-1 flex flex-col justify-center items-start   gap-1 min-w-fit">
+                  <div className="flex items-center whitespace-nowrap gap-2">
+                    <input
+                      type="radio"
+                      name="Sort"
+                      id=""
+                      onClick={() => {
+                        setSortBy("oldestFirst");
+                      }}
+                    />
+                    Oldest first
+                  </div>
+                  <div className="flex items-center whitespace-nowrap gap-2">
+                    <input
+                      type="radio"
+                      name="Sort"
+                      id=""
+                      onClick={() => {
+                        setSortBy("newestFirst");
+                      }}
+                    />
+                    Newest first
+                  </div>
+                  <div className="flex items-center whitespace-nowrap gap-2">
                     <input
                       type="radio"
                       name="Sort"
@@ -100,7 +133,7 @@ function Row2({ category }) {
                     />
                     <span className="font-bold">Price</span>: Low to High
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center whitespace-nowrap gap-2">
                     <input
                       type="radio"
                       name="Sort"
@@ -111,7 +144,7 @@ function Row2({ category }) {
                     />
                     <span className="font-bold">Price</span>: High to Low
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center whitespace-nowrap gap-2">
                     <input
                       type="radio"
                       name="Sort"
@@ -122,7 +155,7 @@ function Row2({ category }) {
                     />
                     <span className="font-bold">Rating</span>: Low to High
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center whitespace-nowrap gap-2">
                     <input
                       type="radio"
                       name="Sort"
@@ -133,7 +166,7 @@ function Row2({ category }) {
                     />
                     <span className="font-bold">Rating</span>: High to Low
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center whitespace-nowrap gap-2">
                     <input
                       type="radio"
                       name="Sort"
@@ -148,6 +181,7 @@ function Row2({ category }) {
                 <div className="w-full flex gap-1 m-2 justify-center items-center">
                   <Button
                     variant="contained"
+                    endIcon={<FaSortAlphaDown />}
                     style={{ backgroundColor: "#8f00ff", color: "white" }}
                     onClick={() => {
                       handleSort(sortBy);
@@ -155,7 +189,7 @@ function Row2({ category }) {
                       close();
                     }}
                   >
-                    Sort now
+                    Sort
                   </Button>
                   <Button
                     variant="outlined"
