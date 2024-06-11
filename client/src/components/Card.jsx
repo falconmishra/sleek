@@ -49,6 +49,7 @@ export const Card = ({ product }) => {
   const discount = Math.floor(100 - (product.price / product.MRP) * 100) || 5;
 
   const handleBuyNow = (product, e) => {
+    console.log(product);
     if (!user.user) {
       toast.error("Bhai login vogin krna ki nai");
       return;
@@ -68,7 +69,7 @@ export const Card = ({ product }) => {
           price: product.price,
         },
       ],
-      totalPrice: product.price + 5,
+      totalPrice: product.price + 50,
     };
     dispatch(addOrder(tempOrder));
     navigateTo("/billing");
@@ -135,7 +136,7 @@ export const Card = ({ product }) => {
             <span className="hidden lg:flex">Add to cart</span>
           </button>
           <button
-            onClick={handleBuyNow}
+            onClick={() => handleBuyNow(product)}
             className="flex items-center text-[12px] justify-center rounded-md bg-purp2 px-5 py-1.5 lg:py-2.5 transition-all duration-200 text-center lg:text-sm font-medium text-white hover:bg-purp"
           >
             Buy Now

@@ -34,7 +34,13 @@ const orderSlice = createSlice({
     },
 
     clearOrders: (state) => {
-      state.orders = [];
+      (state.username = ""),
+        (state.address = ""),
+        (state.customerId = ""),
+        (state.customerEmail = ""),
+        (state.products = []),
+        (state.totalPrice = ""),
+        (state.status = "");
     },
   },
 });

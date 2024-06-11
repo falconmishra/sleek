@@ -78,7 +78,7 @@ export const ProductDetails = (match) => {
             price: product.price,
           },
         ],
-        totalPrice: product.price + 5,
+        totalPrice: product.price + 50,
       };
       dispatch(addOrder(tempOrder));
       nav("/billing");

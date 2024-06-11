@@ -29,7 +29,7 @@ input::placeholder{
 
 /* Handle (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-  background-color: #e1baffd3 ; /* Color of the scrollbar handle */
+  background-color: #9000ffd3 ; /* Color of the scrollbar handle */
   border-radius: 6px; /* Rounded corners */
   transition: all 300ms;
 }

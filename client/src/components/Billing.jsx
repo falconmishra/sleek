@@ -12,6 +12,7 @@ export const Billing = () => {
   const dispatch = useDispatch();
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [orderSuccess, setOrderSuccess] = useState(false);
 
   const handleOrder = async () => {
@@ -26,6 +27,10 @@ export const Billing = () => {
         error: "Failed to place order. Please try again.",
       }
     );
+  };
+  const cancelOrder = () => {
+    dispatch(clearOrders());
+    navigate("/");
   };
 
   if (orderSuccess) {
@@ -126,12 +131,12 @@ export const Billing = () => {
 
           <div className="my-8">
             <div className="flex justify-between mb-2">
-              <p className="text-gray-700">Subtotal:</p>
-              <p>₹ {order.totalPrice - 50}</p>
-            </div>
-            <div className="flex justify-between mb-2">
               <p className="text-gray-700">Shipping:</p>
               <p>₹ 50</p>
+            </div>
+            <div className="flex justify-between mb-2">
+              <p className="text-gray-700">Subtotal:</p>
+              <p>₹ {order.totalPrice}</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
@@ -139,7 +144,7 @@ export const Billing = () => {
               <p className="text-lg font-bold">₹ {order.totalPrice}</p>
             </div>
           </div>
-          <div className="w-full flex items-center justify-center">
+          <div className="w-full gap-6 flex items-center justify-center">
             <Button
               className="w-1/2 mt-8"
               variant="contained"
@@ -152,6 +157,20 @@ export const Billing = () => {
               onClick={() => handleOrder()}
             >
               Place Order
+            </Button>
+            <Button
+              className="w-1/2 mt-8"
+              variant="outlined"
+              sx={{
+                borderColor: "#8F00FF",
+                color: "#8F00FF",
+                "&:hover": {
+                  borderColor: "#7302cc", // Change this to the desired hover color
+                },
+              }}
+              onClick={() => cancelOrder()}
+            >
+              Cancel Order
             </Button>
           </div>
         </div>
