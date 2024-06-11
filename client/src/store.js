@@ -12,4 +12,5 @@ export default configureStore({
     categories: categoryReducer,
     order: orderReducer,
   },
+  devTools: false,
 });
