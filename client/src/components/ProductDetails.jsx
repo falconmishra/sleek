@@ -226,7 +226,7 @@ export const ProductDetails = (match) => {
                             <FaStar
                               key={i}
                               className={
-                                i + 1 < clicked.rating
+                                i + 1 <= clicked.rating
                                   ? "text-amber-300"
                                   : "text-gray-300"
                               }
