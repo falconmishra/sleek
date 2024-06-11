@@ -60,12 +60,13 @@ function ForgetPassword() {
         <div className="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
           <div className="w-full">
             <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize ">
-              Get your free account now.
+              We all have bad memory :(
             </h1>
 
             <p className="mt-4 text-gray-500 ">
-              Let’s get you all set up so you can verify your personal account
-              and begin setting up your profile.
+              Do you know? There is secret formula to crack passsword. Just try
+              [Your_Crush_Name]_[Her/His_Birthday] <br />
+              And if that doesn't work then enter your mail below
             </p>
             <div className="flex flex-col items-center">
               <form className="grid w-full grid-cols-1 gap-6 lg:w-96 mt-8 ">

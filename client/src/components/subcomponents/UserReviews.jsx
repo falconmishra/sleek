@@ -1,5 +1,8 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import u1 from "./Assest-Subcomponents/u1.jpg";
+import u2 from "./Assest-Subcomponents/u2.jpg";
+import u3 from "./Assest-Subcomponents/u3.png";
 
 export default function UserReviews({ rating }) {
   return (
@@ -34,54 +37,73 @@ export default function UserReviews({ rating }) {
             </h3>
             <div class="flex sm:items-center flex-col min-[400px]:flex-row justify-between gap-5 mb-4">
               <div class="flex items-center gap-3">
-                <img
-                  src="https://pagedone.io/asset/uploads/1704349572.png"
-                  alt="John image"
-                  class="w-8 h-8"
-                />
+                <img src={u1} alt="John image" class="w-10 h-10 rounded-full" />
+                <h6 class="font-semibold text-lg leading-8 text-indigo-600 ">
+                  Akshat Maurya
+                </h6>
+              </div>
+              <p class="font-normal text-md leading-8 text-gray-400">
+                Sep 1, 2023
+              </p>
+            </div>
+            <p class="font-light text-md leading-8 text-gray-400">
+              Sleek consistently delivers outstanding quality and style. Their
+              products are not only elegant but also durable, making them a top
+              choice for anyone seeking reliability and sophistication. The
+              attention to detail and excellent customer service further elevate
+              the overall experience. Highly recommended!
+            </p>
+          </div>
+          <div class="pt-11 pb-8 border-b border-gray-100 max-xl:max-w-2xl max-xl:mx-auto">
+            <div class="flex items-center gap-3 mb-4"></div>
+            <h3 class="font-manrope font-semibold text-lg  leading-9 text-black mb-6">
+              Exceptional Service!
+            </h3>
+            <div class="flex sm:items-center flex-col min-[400px]:flex-row justify-between gap-5 mb-4">
+              <div class="flex items-center gap-3">
+                <img src={u3} alt="John image" class="w-10 h-10 rounded-full" />
                 <h6 class="font-semibold text-lg leading-8 text-indigo-600 ">
                   Ashutosh Mishra
                 </h6>
               </div>
               <p class="font-normal text-md leading-8 text-gray-400">
-                Nov 01, 2023
+                June 26, 2023
               </p>
             </div>
             <p class="font-light text-md leading-8 text-gray-400">
-              One of the standout features of Pagedone is its intuitive and
-              user-friendly interface. Navigating through the system feels
-              natural, and the layout makes it easy to locate and utilize
-              various design elements. This is particularly beneficial for
-              designers looking to streamline their workflow.
+              I was thoroughly impressed with the service provided. The team was
+              responsive, professional, and went above and beyond to meet my
+              needs. Every interaction was smooth and efficient, making the
+              entire experience highly satisfactory. I highly recommend their
+              services.
             </p>
           </div>
           <div class="pt-8 max-xl:max-w-2xl max-xl:mx-auto">
             <div class="flex items-center gap-3 mb-4"></div>
             <h3 class="font-manrope font-semibold text-lg  leading-9 text-black mb-6">
-              Pagedone's design system seamlessly bridges the gap between
-              designers and developers!
+              Truly Satisfied!
             </h3>
             <div class="flex sm:items-center flex-col min-[400px]:flex-row justify-between gap-5 mb-4">
               <div class="flex items-center gap-3">
                 <img
-                  src="https://pagedone.io/asset/uploads/1704351103.png"
+                  src={u2}
                   alt="Robert image"
-                  class="w-8 h-8"
+                  class="w-10 h-10 rounded-full"
                 />
                 <h6 class="font-semibold text-lg leading-8 text-indigo-600">
                   Tushar Patidar
                 </h6>
               </div>
               <p class="font-normal text-md leading-8 text-gray-400">
-                Nov 01, 2023
+                Nov 24, 2023
               </p>
             </div>
             <p class="font-light text-md leading-8 text-gray-400">
-              Pagedone doesn't disappoint when it comes to the variety and
-              richness of its design components. From pre-built templates to
-              customizable elements, the system caters to both beginners and
-              seasoned designers. The extensive library ensures a diverse range
-              of options to bring creative visions to life.
+              I am truly satisfied with Sleek. Their products are a perfect
+              blend of style and functionality. The quality is exceptional, and
+              their customer service is top-notch. Every purchase feels like a
+              great investment. Highly recommend Sleek to anyone looking for
+              premium products
             </p>
           </div>
         </div>

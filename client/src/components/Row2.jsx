@@ -71,15 +71,6 @@ function Row2({ title, category }) {
     }
     setProductList(sortedProducts);
   };
-  if (loading) {
-    return (
-      <div className="w-full flex justify-center items-center my-2">
-        <div className="w-1/2">
-          <LinearProgress className="thumb" />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide  overflow-visible">

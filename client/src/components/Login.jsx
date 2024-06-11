@@ -69,15 +69,18 @@ export const Login = () => {
       <div className="flex justify-center min-h-screen">
         <div className="hidden bg-cover lg:block lg:w-4/5 bg-lap"></div>
 
-        <div className="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
-          <div className="w-full">
-            <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize ">
+        <div className="flex items-center w-full max-w-3xl px-8 mx-auto lg:px-12 lg:w-3/5">
+          <div className="w-full flex flex-col">
+            <div className="text-center self-center  w-fit">
+              <h2 className="lobster gdc1 text-[42px] cursor-pointer">Sleek</h2>
+            </div>
+            <h1 className="text-2xl text-center font-semibold tracking-wider text-gray-800 capitalize ">
               Good to see you back :)
             </h1>
 
             <p className="mt-4 text-gray-500 ">
               Let’s get you all set up so you can verify your personal account
-              and begin setting up your profile.
+              and begin shopping for your loved ones.
             </p>
             <div className="flex flex-col items-center">
               <form className="grid w-full grid-cols-1 gap-6 lg:w-96 mt-8 ">

@@ -1,25 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { clearOrders } from "../Slice/orderSlice";
 import Button from "@mui/material/Button";
 import axios from "../axiosbase";
 import toast from "react-hot-toast";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import OrderSuccessful from "./OrderSuccessful";
 
 export const Billing = () => {
   const dispatch = useDispatch();
   const order = useSelector((state) => state.order);
   const user = useSelector((state) => state.user);
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const handleOrder = async () => {
     const res = await toast.promise(
       axios.post(`/order/createOrder/${order.customerId}`, order),
       {
         loading: "Placing Order...",
-        success: "Order Placed successfully! Check your mail for details 🤗",
+        success: () => {
+          setOrderSuccess(true);
+          return "Order Placed successfully! Check your mail for details 🤗";
+        },
+        error: "Failed to place order. Please try again.",
       }
     );
   };
+
+  if (orderSuccess) {
+    return <OrderSuccessful />;
+  }
 
   if (!user.user) {
     return <div>Bhai login vogin krna ki nai</div>;

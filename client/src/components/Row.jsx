@@ -70,15 +70,7 @@ export const Row = ({ name, products }) => {
     console.log(sortedProducts);
   };
 
-  if (loading) {
-    return (
-      <div className="w-full flex justify-center items-center my-2">
-        <div className="w-1/2">
-          <LinearProgress className=" thumb" />
-        </div>
-      </div>
-    );
-  } else if (!productList) {
+  if (!productList) {
     return (
       <div>
         <p>No products to show :( </p>

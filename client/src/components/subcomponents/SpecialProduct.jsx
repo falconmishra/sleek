@@ -13,20 +13,23 @@ export default function SpecialProduct() {
           alt=""
         />
       </div>
-      <div className="flex-1 flex gap-4 flex-col h-full  items-center   lg:items-start justify-center">
+      <div className="flex-1 flex gap-4 flex-col h-full  items-center lg:p-6  lg:items-start justify-center">
         <h1 className="lg:text-3xl text-2xl  font-semibold">
           {" "}
           Min 30% off on <span className="text-gd font-semibold">Dresses</span>
         </h1>
-        <p className="lg:text-[14px] text-[12px] ">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque cum ad
-          inventore similique asperiores tempora aspernatur quidem cupiditate,
-          laborum quae atque quos sequi assumenda adipisci laboriosam deleniti
-          sapiente obcaecati ipsum doloremque, commodi saepe? Consequuntur,
-          reprehenderit ipsam optio quaerat nostrum a.
+        <p className="lg:text-[14px] text-[12px] text-gray-600 lg:leading-7 ">
+          Discover incredible savings with our limited-time offer: 40% off on
+          all dresses! Whether you're looking for a casual day dress or
+          something elegant for a special occasion, now is the perfect time to
+          refresh your wardrobe. Don't miss out on these amazing discounts. Shop
+          now and find your new favorite dress at a fraction of the price!
         </p>
-        <button className="  hover:bg-purple-500/90 transition-all duration-300 gap-1 rounded-lg text-white bg-purple-600">
-          <Link to="/explore" className="p-2 flex items-center">
+        <button className=" lg:text-[14px] text-[12px] w-fit hover:bg-purple-500/90 transition-all duration-300 gap-1 rounded-lg text-white bg-purple-600">
+          <Link
+            to="getProductByCategory?category=Woman"
+            className="p-2 flex items-center"
+          >
             Explore Now
             <GiClick />
           </Link>

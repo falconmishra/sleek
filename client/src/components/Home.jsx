@@ -18,6 +18,7 @@ import ProductByCategory from "./ProductByCategory";
 import Stats from "./subcomponents/Stats";
 import SpecialProduct from "./subcomponents/SpecialProduct";
 import SecFeature from "./subcomponents/SecFeature";
+import Electronic from "./subcomponents/Electronic";
 
 const getdata = async () => {
   let res = await axios.get("/product/getProducts");
@@ -56,6 +57,7 @@ export const Home = () => {
       <SpecialProduct />
 
       <Sec2 />
+      <Electronic />
       <Row2 className="" title={"Classics for Men"} category={"men"}></Row2>
       <div className="bg-purple-100/80 pt-4 ">
         <Row2 className="" title={"Sneaker Fever"} category={"Shoes"}></Row2>
@@ -65,12 +67,12 @@ export const Home = () => {
       <Stats />
       <Row2 className="" title={"Best in Gaming"} category={"Gaming"}></Row2>
 
+      <Row3 limit={7}></Row3>
       <Row
         name={"Recently Added"}
         category={"Electronics"}
         products={getdata()}
       ></Row>
-      <Row3 limit={6}></Row3>
     </div>
   );
 };
