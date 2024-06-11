@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import Button from "@mui/material/Button";
 import "../css/sort.css";
 
-function Row3({ limit }) {
+function Row3({ limit, title }) {
   const [productList, setProductList] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -84,9 +84,11 @@ function Row3({ limit }) {
   };
 
   return (
-    <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide bg-wh1 overflow-visible">
+    <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide  overflow-visible">
       <div className="w-full Row flex justify-between ">
-        <span className="text-2xl">Recommended for you</span>
+        <span className="lg:text-3xl my-2 text-xl font-medium">
+          {title || "Recommended for you"}
+        </span>
         <div className="flex gap-4">
           <Popup
             trigger={

@@ -70,7 +70,7 @@ const ManageOrders = () => {
   }
 
   return (
-    <div className="flex flex-col w-fit items-center gap-4 p-6">
+    <div className="flex flex-col  items-center justify-center w-full gap-4 p-6">
       Manage All Orders
       <div>
         <div className="overflow-x-auto md:overflow-x-scroll   overflow-hidden">

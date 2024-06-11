@@ -9,7 +9,7 @@ function RemoveProduct() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("/product/getProducts");
+        const res = await axios.get("/product/getProductsAll");
         console.log(res.data);
         setProducts(res.data.products);
         console.log(products);

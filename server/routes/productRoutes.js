@@ -14,9 +14,9 @@ import {
   updateProductController,
   searchProduct,
   getRandomProductsController,
+  getProductAllController,
 } from "../controllers/productController.js";
 import fileUploadMiddleware from "../middlewares/productMiddlewares.js";
-import multer from "multer";
 
 const router = express.Router();
 
@@ -39,6 +39,7 @@ router.put(
 
 //get products
 router.get("/getProducts", getProductController);
+router.get("/getProductsAll", getProductAllController);
 
 router.get("/getRandomProducts/:count", getRandomProductsController);
 

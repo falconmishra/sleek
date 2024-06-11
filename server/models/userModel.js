@@ -24,14 +24,12 @@ const userSchema = new mongoose.Schema(
     },
     secretQuestion: {
       type: String,
-
       trim: true,
     },
     token: {
       type: String,
       trim: true,
-      unique: true,
-      default: "",
+      default: null,
     },
     pincode: {
       type: String,
@@ -39,7 +37,6 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-
       trim: true,
     },
     resetToken: {

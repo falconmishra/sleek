@@ -7,7 +7,7 @@ import randonString from "randomstring";
 //register function
 export const routerController = async (req, res) => {
   try {
-    const { username, email, password, address, contact, pincode } = req.body;
+    const { username, email, password, address, contact } = req.body;
 
     //validations
     if (!username) {
@@ -32,12 +32,37 @@ export const routerController = async (req, res) => {
       res.send({ error: "password is required" });
       return;
     }
-    if (!pincode) {
-      res.send({ error: "password is required" });
-      return;
-    }
 
     //checking for existing user
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      port: 465,
+      auth: {
+        user: process.env.email,
+        pass: process.env.password,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.email,
+      to: email,
+      subject: "Welcome to Sleek!",
+      text: `Hi there! Welcome to Sleek!`,
+      html: `
+        <h1>Welcome to Sleek!</h1>
+        <p>Hello ${username}!</p>
+        <p>Welcome aboard! We're thrilled to have you join us.</p>
+        <p>Sleek is your ultimate Fashion and Shopping destination.</p><br>
+        <p>We're a team of passionate people who are dedicated to providing you with the best shopping experience.</p>
+        <p>If you have any questions or need assistance, feel free to reach out to us.</p>
+        <br>
+        <p>Our <a href="https://www.instagram.com/akshat___maurya/"> Instagram</a>,<a href="https://twitter.com/Akshat__Maurya"> Twitter(X)</a>,<a href="https://www.linkedin.com/in/akshatmaurya25/"> Linkedin</a></p>
+        <br>
+
+        <p>Best regards,<br>Team Sleek</p>
+      `,
+    };
 
     const userExsist = await userModel.findOne({ email });
 
@@ -45,7 +70,13 @@ export const routerController = async (req, res) => {
       res.status(200).send({ message: "User with that email already exists" });
       return;
     }
-
+    transport.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Mail has been sent : ", info.response);
+      }
+    });
     //register User
     const hashPassword = await Hashpassword(password);
     const user = await new userModel({
@@ -54,7 +85,6 @@ export const routerController = async (req, res) => {
       address,
       password: hashPassword,
       contact,
-      pincode,
     }).save();
 
     res.status(201).send({
@@ -95,7 +125,7 @@ export const loginController = async (req, res) => {
     const match = await comparePassword(password, user.password);
 
     if (!match) {
-      return res.status(200).send({
+      return res.status(404).send({
         success: false,
         message: "Invalid password",
       });

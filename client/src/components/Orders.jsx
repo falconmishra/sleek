@@ -66,11 +66,14 @@ const Orders = () => {
   }
   return (
     <div className="flex flex-col items-center gap-5 py-1 xl:py-6 w-full">
-      <h2 className="mt-2">Your Orders</h2>
-      <div className="order-conatiner p-4 md:p-8 bg-wh1 w-5/6 xl:w-1/2">
+      <h2 className="mt-2 text-3xl font-medium">Your Orders</h2>
+      <div className="order-conatiner p-4 md:p-8 w-5/6 xl:w-1/2">
         <div className="order flex flex-col gap-4">
           {!orders ? (
-            <CircularProgress />
+            <>
+              <CircularProgress />
+              <h2>Thand pao paaji, load hora hai</h2>
+            </>
           ) : (
             orders.map((order, index) => (
               <div

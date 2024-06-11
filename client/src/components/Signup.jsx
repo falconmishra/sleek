@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "../css/signup.css";
 import "../css/btn.css";
-import login from "../images/login.jpg";
+import { useSelector } from "react-redux";
 import axios from "../axiosbase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export const Signup = () => {
@@ -17,106 +17,165 @@ export const Signup = () => {
   const navigateTo = useNavigate();
 
   const handleSubmit = () => {
-    axios
-      .post("http://localhost:8080/api/v1/auth/register", {
+    // axios
+    //   .post("/auth/register", {
+    //     username,
+    //     email: email.toLowerCase(),
+    //     password,
+    //     address,
+    //     contact,
+    //     pincode,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //     if (res.data.success == true) {
+    //       toast.success(res.data.message);
+    //       navigateTo("/login");
+    //     } else {
+    //       toast(res.data.message || res.data.error);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("error in registering ", error);
+    //   });
+
+    toast.promise(
+      axios.post("/auth/register", {
         username,
         email: email.toLowerCase(),
         password,
-        address,
+        address: address + " " + pincode,
         contact,
-        pincode,
-      })
-
-      .then((res) => {
-        console.log(res);
-        if (res.data.success == true) {
-          toast.success(res.data.message);
-          navigateTo("/login");
-        } else {
-          toast(res.data.message || res.data.error);
-        }
-      })
-      .catch((error) => {
-        console.log("error in registering ", error);
-      });
+      }),
+      {
+        loading: "Registering user",
+        success: (res) => {
+          if (res.data.success) {
+            navigateTo("/login");
+            return res.data.message;
+          } else {
+            throw new Error(res.data.message || "Unknown error");
+          }
+        },
+        error: "Error in registering",
+      }
+    );
   };
+
+  const auth = useSelector((state) => state.user);
+  if (auth.isAuthenticated) {
+    return <h4>You are already logged in</h4>;
+  }
+
   return (
-    <div className="login-h h-fit">
-      <div className="contain h-fit p-2">
-        <div className="conatinerone">
-          <img src={login} alt="" />
-        </div>
-        <div className="containertwo">
-          <h1>Welcome</h1>
-          <div className="cc">
-            <h2>Signup Your account</h2>
-            <div className="comp">
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Name"
-                required
-              />
-            </div>
-            <div className="comp">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-              />
-            </div>
+    <section className="bg-white w-full">
+      <div className="flex justify-center min-h-screen">
+        <div className="hidden bg-cover lg:block lg:w-4/5 bg-lap"></div>
 
-            <div className="comp">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
+        <div className="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
+          <div className="w-full">
+            <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize ">
+              Get your free account now.
+            </h1>
+            <p className="mt-4 text-gray-500 ">
+              Let’s get you all set up so you can verify your personal account
+              and begin setting up your profile.
+            </p>
+            <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 mb-7">
+              <div>
+                <label className="block mb-2 text-sm  text-gray-700">
+                  User Name
+                </label>
+                <input
+                  required
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md   text-gray-700   focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm  text-gray-700">
+                  Contact
+                </label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  required
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md   text-gray-700text-gray-700  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm text-gray-700">
+                  Address
+                </label>
+                <input
+                  type="text"
+                  value={address}
+                  required
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md   text-gray-700  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm  text-gray-700">
+                  Pincode
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={pincode}
+                  onChange={(e) => setPincode(e.target.value)}
+                  className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md   text-gray-700  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm  text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md   text-gray-700  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-sm text-gray-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full px-5 py-3 mt-2   bg-white border border-gray-200 rounded-md   text-gray-700  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                />
+              </div>
             </div>
-            <div className="comp">
-              <input
-                type="tel"
-                value={contact}
-                min={10}
-                onChange={(e) => setContact(e.target.value)}
-                placeholder="Contact"
-                required
-              />
-            </div>
-            <div className="comp border ">
-              <input
-                id="myTextArea"
-                name="address"
-                value={address}
-                required
-                placeholder="Address"
-                onChange={(e) => setAddress(e.target.value)}
-              />
-            </div>
-            <div className="comp">
-              <input
-                type="number"
-                value={pincode}
-                onChange={(e) => setPincode(e.target.value)}
-                placeholder="Pincode"
-                required
-              />
-            </div>
-            <button className="btn2 btnlog" onClick={handleSubmit}>
-              Register
+            <button
+              className="flex m-auto items-center justify-center w-1/2 px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-purp rounded-md hover:bg-purp2   focus:outline-none focus:ring focus:ring-purp3 focus:ring-opacity-50"
+              onClick={handleSubmit}
+            >
+              <span>Sign Up </span>
             </button>
-
-            <h3 className="cursor-pointer" onClick={() => navigateTo("/login")}>
-              Already have an account?
-            </h3>
+            <div className="w-full text-center mt-4">
+              Already a user?{" "}
+              <Link className="text-purp" to="/login">
+                Login
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };

@@ -11,7 +11,7 @@ export const Footer = () => {
       <div className=" bg-gray-900 flex items-start justify-center">
         <p>&#169; Akshat and Ashutosh, 2023</p>
       </div>
-      <div className="flex h-fit  flex-wrap items-center justify-start">
+      <div className="flex h-fit flex-col text-center lg:text-left pt-6 lg:pt-0 lg:flex-row flex-wrap items-center justify-start">
         <div className="flex flex-1 h-64 justify-center items-center logo-container">
           <h2 className="lobster   gdc1 text-[60px]">Sleek</h2>
         </div>

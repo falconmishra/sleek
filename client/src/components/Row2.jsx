@@ -75,16 +75,16 @@ function Row2({ title, category }) {
     return (
       <div className="w-full flex justify-center items-center my-2">
         <div className="w-1/2">
-          <LinearProgress className=" thumb" />
+          <LinearProgress className="thumb" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide bg-wh1 overflow-visible">
+    <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide  overflow-visible">
       <div className="w-full Row flex justify-between ">
-        <span className="text-2xl">
+        <span className="lg:text-3xl my-2 text-xl font-medium">
           {title ? title : "All new in " + { category }}
         </span>
         <div className="flex gap-4">

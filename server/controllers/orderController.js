@@ -38,6 +38,8 @@ const sendOrderdMail = async (email, total, products) => {
         ${productsListHTML}
       </ul>
       <p>Total Price : $${total}</p>
+      <a href="https://www.delhivery.com/tracking">Track your order here</a>
+      <p>Thank you for shopping with us!</p>
       <p>If you have any questions or concerns regarding your order, please feel free to contact us.</p>
       <p>Thank you for choosing us!</p>
       <p>Best regards,<br>Your Sleek Team</p>

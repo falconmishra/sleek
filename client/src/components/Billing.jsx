@@ -15,8 +15,8 @@ export const Billing = () => {
     const res = await toast.promise(
       axios.post(`/order/createOrder/${order.customerId}`, order),
       {
-        loading: "Placing Order",
-        success: "Order Placed successfully",
+        loading: "Placing Order...",
+        success: "Order Placed successfully! Check your mail for details 🤗",
       }
     );
   };

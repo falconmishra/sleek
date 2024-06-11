@@ -162,3 +162,9 @@ input[type=email]::placeholder {
   .color{
     color: #ecd3ff42
   }
+
+  .bg-lap{
+    background-image: url('../images/man-woman.jpeg');
+    background-position: right;
+    background-size: contain;
+  }

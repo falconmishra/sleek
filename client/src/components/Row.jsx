@@ -87,9 +87,9 @@ export const Row = ({ name, products }) => {
   }
 
   return (
-    <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide bg-wh1 overflow-visible">
+    <div className="w-screen color-w1 p-2 xl:p-2 xl:px-8 scroll-hide  overflow-visible">
       <div className="w-full Row flex justify-between ">
-        <span className="text-2xl">{name}</span>
+        <span className="lg:text-3xl my-2 text-xl font-medium">{name}</span>
         <div className="flex gap-4">
           <Popup
             trigger={

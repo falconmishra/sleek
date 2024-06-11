@@ -1,6 +1,7 @@
 // userSlice.js
 
 import { createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 const initialState = {
   user: null,
@@ -10,6 +11,7 @@ const initialState = {
   isAdmin: false,
   contact: null,
   pincode: null,
+  avatar: null,
 };
 
 const userSlice = createSlice({
@@ -46,6 +48,9 @@ const userSlice = createSlice({
     },
     setAdmin: (state) => {
       state.isAdmin = true;
+    },
+    setAlpha: (state, action) => {
+      state.avatar = action.payload;
     },
   },
 });

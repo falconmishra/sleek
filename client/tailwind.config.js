@@ -17,6 +17,9 @@ export default {
       gradients: {
         gd1: "linear-gradient(to right, #6EE7B7, #48BB78)",
       },
+      gridTemplateRows: {
+        "[auto,auto,1fr]": "auto auto 1fr",
+      },
     },
   },
   plugins: [],

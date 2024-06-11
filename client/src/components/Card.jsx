@@ -1,5 +1,5 @@
 import React from "react";
-import { FaStar, FaCartPlus } from "react-icons/fa";
+import { FaStar, FaCartPlus, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../css/btn.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,11 +48,154 @@ export const Card = ({ product }) => {
     navigateTo("/billing");
   };
 
+  if (!product) {
+    return (
+      <div>
+        <div class="flex items-center mb-5">
+          <p class="bg-blue-100 text-blue-800 text-sm font-semibold inline-flex items-center p-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+            8.7
+          </p>
+          <p class="ms-2 font-medium text-gray-900 dark:text-white">
+            Excellent
+          </p>
+          <span class="w-1 h-1 mx-2 bg-gray-900 rounded-full dark:bg-gray-500"></span>
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+            376 reviews
+          </p>
+          <a
+            href="#"
+            class="ms-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Read all reviews
+          </a>
+        </div>
+        <div class="gap-8 sm:grid sm:grid-cols-2">
+          <div>
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Staff
+              </dt>
+              <dd class="flex items-center mb-3">
+                <div class="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 me-2">
+                  <div
+                    class="bg-blue-600 h-2.5 rounded dark:bg-blue-500"
+                    style="width: 88%"
+                  ></div>
+                </div>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  8.8
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Comfort
+              </dt>
+              <dd class="flex items-center mb-3">
+                <div class="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 me-2">
+                  <div
+                    class="bg-blue-600 h-2.5 rounded dark:bg-blue-500"
+                    style="width: 89%"
+                  ></div>
+                </div>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  8.9
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Free WiFi
+              </dt>
+              <dd class="flex items-center mb-3">
+                <div class="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 me-2">
+                  <div
+                    class="bg-blue-600 h-2.5 rounded dark:bg-blue-500"
+                    style="width: 88%"
+                  ></div>
+                </div>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  8.8
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Facilities
+              </dt>
+              <dd class="flex items-center">
+                <div class="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 me-2">
+                  <div
+                    class="bg-blue-600 h-2.5 rounded dark:bg-blue-500"
+                    style="width: 54%"
+                  ></div>
+                </div>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  5.4
+                </span>
+              </dd>
+            </dl>
+          </div>
+          <div>
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Value for money
+              </dt>
+              <dd class="flex items-center mb-3">
+                <div class="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 me-2">
+                  <div
+                    class="bg-blue-600 h-2.5 rounded dark:bg-blue-500"
+                    style="width: 89%"
+                  ></div>
+                </div>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  8.9
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Cleanliness
+              </dt>
+              <dd class="flex items-center mb-3">
+                <div class="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 me-2">
+                  <div
+                    class="bg-blue-600 h-2.5 rounded dark:bg-blue-500"
+                    style="width: 70%"
+                  ></div>
+                </div>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  7.0
+                </span>
+              </dd>
+            </dl>
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Location
+              </dt>
+              <dd class="flex items-center">
+                <div class="w-full bg-gray-200 rounded h-2.5 dark:bg-gray-700 me-2">
+                  <div
+                    class="bg-blue-600 h-2.5 rounded dark:bg-blue-500"
+                    style="width: 89%"
+                  ></div>
+                </div>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  8.9
+                </span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="card bg-white h-fit w-48 xl:w-72 p-2 rounded-xl cursor-default hover:scale-[101%] transition-all duration-200">
+    <div className="card bg-white  h-fit w-48 xl:w-72 p-2 rounded-xl cursor-default hover:scale-[101%] transition-all duration-200">
       <div>
         <img
-          className=" w-full h-40 xl:h-64 object-cover object-center rounded-lg"
+          className=" w-full h-40 xl:h-64 object-cover object-center "
           src={product.photo}
         />
       </div>
@@ -60,14 +203,14 @@ export const Card = ({ product }) => {
       <div>
         <div className="flex mt-3">
           <span
-            className="flex-auto text-[1.15rem] font-semibold truncate"
+            className="flex-auto md:text-[1.15rem]  font-semibold truncate"
             onClick={setClick}
           >
             <Link to={`/productdetails?slug=${product.slug}`}>
               {product.name}
             </Link>
           </span>
-          <div className="flex w-fit gap-1 items-center justify-end text-purp">
+          <div className="flex w-fit bg-amber-100/50 px-2 rounded-md text-amber-300 gap-1 text-[12px] items-center lg:text-[16px] justify-end">
             {product.rating || "Rating"}
             <FaStar />
           </div>
@@ -81,17 +224,17 @@ export const Card = ({ product }) => {
             </p> */}
           </div>
           <div className="flex gap-1 items-center">
-            <span className="lg:text-[1.25rem] sm:text-[1rem] gdc1 font-medium text-purp">
+            <span className="lg:text-[1.25rem] sm:text-[1rem] gdc1 font-medium text-gd ">
               ₹{product.price}
             </span>
             <span className="lg:text-[1.05rem] sm:text-[.8rem] line-through text-[grey] ">
               ₹{product.MRP || "MRP"}
             </span>
             <span
-              className={`text-purp sm:text-[10px]  lg:text-[16px]
+              className={`text-purp2 text-[11px]  lg:text-[14px]
               ${
                 discount >= 50
-                  ? "bg-purp3 sm:text-[10px] lg:text-[16px]  rounded-full px-[4px] truncate "
+                  ? "bg-purp3 text-[12px] lg:text-[16px]  rounded-full px-[4px] truncate "
                   : ""
               }
               `}
@@ -104,20 +247,16 @@ export const Card = ({ product }) => {
         <div className="flex gap-2 justify-center my-2">
           <button
             onClick={addToCart}
-            className="btn2 gdbg flex flex-1 items-center justify-center text-[1.5rem]  text-wh1 bg-b1 hover:opacity-90  rounded-full"
+            class="flex justify-between items-center gap-2 rounded-md bg-slate-900 px-5 py-1.5 lg:py-2.5 text-center text-[12px] lg:text-sm font-medium text-white hover:bg-gray-700 "
           >
-            <Link className="lg:p-3 p-2  w-full h-full flex items-center justify-center">
-              <FaCartPlus className="text-[15px] lg:text-[25px]" />
-            </Link>
+            <FaShoppingCart className="text-[19px]" />
+            <span className="hidden lg:flex">Add to cart</span>
           </button>
-
           <button
-            className="bg-black flex-1  text-wh1  hover:opacity-90  rounded-full"
-            onClick={() => handleBuyNow(product)}
+            onClick={handleBuyNow}
+            class="flex items-center text-[12px] justify-center rounded-md bg-purp2 px-5 py-1.5 lg:py-2.5 transition-all duration-200 text-center lg:text-sm font-medium text-white hover:bg-purp "
           >
-            <Link className="lg:p-3 p-2  w-full text-[12px] h-full flex items-center justify-center">
-              Buy Now
-            </Link>
+            Buy Now
           </button>
         </div>
       </div>

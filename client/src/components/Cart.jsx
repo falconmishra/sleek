@@ -18,9 +18,10 @@ export const Cart = () => {
 
   const handleCheckout = () => {
     if (!user.user) {
-      toast.error("Login kr le yaar please!");
-    }
-    if (user && user.user && user.user.id && cart) {
+      toast.error("Login kr le yaar please! 🥲 ");
+    } else if (cart.length == 0) {
+      toast.error(" Bhai khali dabba bhej du kya ghar pe ab 📦 ");
+    } else if (user && user.user && user.user.id && cart) {
       tempOrder = {
         username: user.user.username,
         phone: user.contact,
@@ -50,9 +51,11 @@ export const Cart = () => {
           {cart.length ? (
             cart.map((item) => <CartCard key={item.id} product={item} />)
           ) : (
-            <p className="w-full flex justify-center">
-              Your shopping cart is empty.
-            </p>
+            <div>
+              <h2 className="text-wrap font-medium text-center text-[18px]">
+                Samajh nhi ata ki mere DMs jada khali hai ya aapki cart 😐
+              </h2>
+            </div>
           )}
         </div>
 

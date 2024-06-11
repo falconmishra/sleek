@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 import Orders from "./components/Orders";
 import ManageOrders from "./components/ManageOrders";
 
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import SetCategories from "./components/SetCategories";
 import ForgetPassword from "./components/ForgetPassword";
 import EditProduct from "./components/EditProduct";
@@ -37,6 +37,9 @@ import {
 import { useEffect } from "react";
 import ResetPassword from "./components/ResetPassword";
 import GetUsers from "./components/GetUsers";
+import ProductByCategory from "./components/ProductByCategory";
+import Explore from "./components/Explore";
+import { fetchCategories } from "./Slice/categorySlice";
 // Get the value of the 'token' cookie
 
 function App() {
@@ -48,6 +51,7 @@ function App() {
       if (token) {
         try {
           let res = await axios.get(`/auth/getUserByToken/${token}`);
+
           dispatch(setUser(res.data.user));
           dispatch(setContact(res.data.user.contact));
           dispatch(setPincode(res.data.user.pincode));
@@ -63,7 +67,7 @@ function App() {
           dispatch(setUser(null));
           dispatch(setAdmin(false));
           dispatch(setAuth(null));
-          // Remove token cookie
+
           Cookies.remove("token");
         }
       } else {
@@ -76,11 +80,15 @@ function App() {
 
     setUser1();
   }, [token, dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <div className="flex flex-col w-full min-h-fit">
         <Navbar />
-        <div className="container bg-wh2 h-fit min-h-screen min-w-full flex justify-center items-center ">
+        <div className="   bg-wh2 h-fit min-h-screen min-w-full  ">
           <Routes>
             {user.isAdmin ? (
               <>
@@ -105,12 +113,23 @@ function App() {
                 <Route path="/billing" element={<Billing />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/orders" element={<Orders />} />
+                <Route path="/explore" element={<Explore />} />
                 <Route path="*" element={<PageUnavailable />} />
+                <Route
+                  path="/getProductByCategory/*"
+                  element={<ProductByCategory />}
+                />
               </>
             ) : (
               <>
                 <Route index element={<Home />} />
+
+                <Route
+                  path="/getProductByCategory/*"
+                  element={<ProductByCategory />}
+                />
                 <Route path="/login" element={<Login />} />
+                <Route path="/explore" element={<Explore />} />
                 <Route path="/forgetPassword" element={<ForgetPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/signup" element={<Signup />} />

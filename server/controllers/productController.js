@@ -123,6 +123,31 @@ export const getProductController = async (req, res) => {
   }
 };
 
+export const getProductAllController = async (req, res) => {
+  try {
+    const products = await productModel
+      .find({})
+      .populate("category")
+      // .select("-photo")
+
+      .sort({ createdAt: -1 });
+
+    res.status(200).send({
+      success: true,
+      total_count: products.length,
+      message: "All Products",
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in getting product",
+      error: error.message,
+    });
+  }
+};
+
 export const getSingleProductController = async (req, res) => {
   try {
     const product = await productModel
@@ -201,47 +226,55 @@ export const deleteProductController = async (req, res) => {
   }
 };
 
-//update product controller//upate producta
+//update product controller//upate productaimport productModel from 'path_to_your_product_model';
+
 export const updateProductController = async (req, res) => {
   console.log(req.body);
   try {
-    const { name, description, price, category, categoryName, quantity } =
-      req.body;
+    const { name, description, price, category, quantity } = req.body;
 
-    //alidation
-    switch (true) {
-      case !name:
-        return res.status(500).send({ error: "Name is Required" });
-      case !description:
-        return res.status(500).send({ error: "Description is Required" });
-      case !price:
-        return res.status(500).send({ error: "Price is Required" });
-      case !category:
-        return res.status(500).send({ error: "Category is Required" });
-      case !quantity:
-        return res.status(500).send({ error: "Quantity is Required" });
+    // Validation
+    if (!name) {
+      return res.status(400).send({ error: "Name is required" });
+    }
+    if (!description) {
+      return res.status(400).send({ error: "Description is required" });
+    }
+    if (!price) {
+      return res.status(400).send({ error: "Price is required" });
+    }
+    if (!category) {
+      return res.status(400).send({ error: "Category is required" });
+    }
+    if (!quantity) {
+      return res.status(400).send({ error: "Quantity is required" });
     }
 
-    let products = await productModel.findByIdAndUpdate(
+    // Update the product
+    let updatedProduct = await productModel.findByIdAndUpdate(
       req.params.pid,
       { ...req.body, slug: slugify(name) },
       { new: true }
     );
 
-    await products.save();
-    res.status(201).send({
+    if (!updatedProduct) {
+      return res.status(404).send({ error: "Product not found" });
+    }
+
+    // Save the updated product
+    updatedProduct = await updatedProduct.save();
+
+    res.status(200).send({
       success: true,
-      message: "Product Updated Successfully",
-      products,
+      message: "Product updated successfully",
+      product: updatedProduct,
     });
   } catch (error) {
-    console.log(error.message);
+    console.error("Error updating product:", error.message);
     res.status(500).send({
       success: false,
-
-      error,
-      message: "Error in Update product",
-      request: req,
+      message: "Error updating product",
+      error: error.message,
     });
   }
 };

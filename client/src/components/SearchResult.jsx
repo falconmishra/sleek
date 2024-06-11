@@ -32,21 +32,23 @@ export const SearchResult = () => {
   }, [q]);
 
   return (
-    <div className="flex flex-wrap flex-col w-full gap-10 items-center h-full   ">
+    <div className="flex  flex-col w-full mt-10 gap-7 items-center h-full   ">
       <h2 className="text-2xl font-semibold">
         Found {searchProducts.total_count || 0}{" "}
         {searchProducts.total_count == 1 ? "result" : "results"} for "{q}"
       </h2>
-      <div className="flex gap-2 p-6 flex w-full items-start">
-        {searchProducts &&
-        searchProducts.results &&
-        searchProducts.results.length > 0 ? (
-          searchProducts.results.map((product, index) => (
-            <Card key={index} product={product} />
-          ))
-        ) : (
-          <p>No results found</p>
-        )}
+      <div className="flex w-full items-center justify-start">
+        <div className="flex w-fit justify-center gap-2 p-6 flex-wrap items-start">
+          {searchProducts &&
+          searchProducts.results &&
+          searchProducts.results.length > 0 ? (
+            searchProducts.results.map((product, index) => (
+              <Card key={index} product={product} />
+            ))
+          ) : (
+            <p>No results found</p>
+          )}
+        </div>
       </div>
     </div>
   );
